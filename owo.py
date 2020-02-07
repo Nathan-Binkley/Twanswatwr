@@ -13,6 +13,8 @@ owod = ""
 for i in text:
     if i == "l" or i == "r":
         owod += "w"
+    elif i == "L" or i == "R":
+        owod += "W"
     elif i == " ":
         if random.randint(0,100) < 10:
             helper = random.randint(0,100)
