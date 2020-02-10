@@ -1,4 +1,5 @@
 import os, time, random
+import tweepy
 from gtts import gTTS
 import keys
 
@@ -6,8 +7,10 @@ text=""
 
 filename = "TestFile" #no ".txt" plz
 
-with open(filename + ".txt", "r") as f:
-    text = f.read()
+
+# ----------------- READ IN FROM FILE IF NECESSARY --------------------- #
+# with open(filename + ".txt", "r") as f:
+#     text = f.read()
 
 owod = ""
 
@@ -37,11 +40,21 @@ for i in text:
     else:
         owod += i
 
-with open(filename + "_owod.txt","w+") as f:
-    f.write(owod)
 
-tts = gTTS(text=owod, lang='en')
-tts.save("welcome.mp3") 
+auth = tweepy.OAuthHandler(keys.API_KEY[0], keys.API_KEY[1])
+auth.set_access_token(keys.ACCESS_TOKEN[0],keys.ACCESS_TOKEN[1])
+word = tweepy.API(auth)
+word.update_status(status="HELLO WORLD")
+print("Tweeted %s", "HELLO WORLD")
+
+# with open(filename + "_owod.txt","w+") as f:
+#     f.write(owod)
+
+
+# -------------------- UNCOMMENT FOR TEXT-TO-SPEECH -------------------------- #
+
+# tts = gTTS(text=owod, lang='en')
+# tts.save("welcome.mp3") 
   
 # Playing the converted file 
-os.system('start '+ keys.wmfilepath + ' ' + keys.mp3filepath + 'welcome.mp3"')
+# os.system('start '+ keys.wmfilepath + ' ' + keys.mp3filepath + 'welcome.mp3"')
