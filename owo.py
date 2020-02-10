@@ -5,12 +5,8 @@ import keys
 
 text=""
 
-filename = "TestFile" #no ".txt" plz
 
 
-# ----------------- READ IN FROM FILE IF NECESSARY --------------------- #
-# with open(filename + ".txt", "r") as f:
-#     text = f.read()
 
 owod = ""
 
@@ -46,6 +42,11 @@ auth.set_access_token(keys.ACCESS_TOKEN[0],keys.ACCESS_TOKEN[1])
 word = tweepy.API(auth)
 word.update_status(status="HELLO WORLD")
 print("Tweeted %s", "HELLO WORLD")
+
+# ----------------- READ IN FROM FILE IF NECESSARY --------------------- #
+# filename = "TestFile" #no ".txt" plz
+# with open(filename + ".txt", "r") as f:
+#     text = f.read()
 
 # with open(filename + "_owod.txt","w+") as f:
 #     f.write(owod)
