@@ -14,7 +14,7 @@ text=""
 # 
 
 
-filterList = ['://','www.','.com','.net','.gov','.org','https','http']
+filterList = ['://','www.','.com','.net','.gov','.org','https','http', '@', '#']
 
 def owo(text):
     texts = text.split(" ")
