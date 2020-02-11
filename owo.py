@@ -24,7 +24,7 @@ def owo(text):
     for i in texts:
         
         temp = False
-        for j in filterList:
+        for j in filterList: #allows filtering 
             if j in i:
                 owod += i
                 
@@ -69,6 +69,8 @@ status = status._json
 
 text = status['status']
 text = text['text']
+tweet_id = status['id']
+print(tweet_id)
 print(text)
 print(owo(text))
 
@@ -76,7 +78,7 @@ print(owo(text))
 with open("Trumps.json", 'w') as f:
     json.dump(status, f, indent=4)
 
-word.update_status(status=owo(text))
+word.update_status(status=owo(text), in_reply_to_status_id = tweet_id, auto_populate_reply_metadata=True)
 print("Tweeted:", owo(text))
 
 # ----------------- READ IN FROM FILE IF NECESSARY --------------------- #
