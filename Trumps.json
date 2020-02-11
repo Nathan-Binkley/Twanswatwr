@@ -26,27 +26,38 @@
         }
     },
     "protected": false,
-    "followers_count": 72415607,
+    "followers_count": 72413634,
     "friends_count": 47,
-    "listed_count": 114488,
+    "listed_count": 114507,
     "created_at": "Wed Mar 18 13:46:38 +0000 2009",
     "favourites_count": 8,
     "utc_offset": null,
     "time_zone": null,
     "geo_enabled": true,
     "verified": true,
-    "statuses_count": 48934,
+    "statuses_count": 48947,
     "lang": null,
     "status": {
-        "created_at": "Tue Feb 11 13:43:27 +0000 2020",
-        "id": 1227226643976065024,
-        "id_str": "1227226643976065024",
-        "text": "Great being in New Hampshire last night. I would say that was the biggest political Rally in New Hampshire history. Incredible evening!",
+        "created_at": "Tue Feb 11 18:22:51 +0000 2020",
+        "id": 1227296958886424584,
+        "id_str": "1227296958886424584",
+        "text": "RT @realDonaldTrump: MAKE AMERICA GREAT AGAIN and then, KEEP AMERICA GREAT!",
         "truncated": false,
         "entities": {
             "hashtags": [],
             "symbols": [],
-            "user_mentions": [],
+            "user_mentions": [
+                {
+                    "screen_name": "realDonaldTrump",
+                    "name": "Donald J. Trump",
+                    "id": 25073877,
+                    "id_str": "25073877",
+                    "indices": [
+                        3,
+                        19
+                    ]
+                }
+            ],
             "urls": []
         },
         "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
@@ -59,9 +70,38 @@
         "coordinates": null,
         "place": null,
         "contributors": null,
+        "retweeted_status": {
+            "created_at": "Sun Feb 09 19:56:18 +0000 2020",
+            "id": 1226595698793230348,
+            "id_str": "1226595698793230348",
+            "text": "MAKE AMERICA GREAT AGAIN and then, KEEP AMERICA GREAT!",
+            "truncated": false,
+            "entities": {
+                "hashtags": [],
+                "symbols": [],
+                "user_mentions": [],
+                "urls": []
+            },
+            "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+            "in_reply_to_status_id": null,
+            "in_reply_to_status_id_str": null,
+            "in_reply_to_user_id": null,
+            "in_reply_to_user_id_str": null,
+            "in_reply_to_screen_name": null,
+            "geo": null,
+            "coordinates": null,
+            "place": null,
+            "contributors": null,
+            "is_quote_status": false,
+            "retweet_count": 40775,
+            "favorite_count": 210193,
+            "favorited": false,
+            "retweeted": false,
+            "lang": "en"
+        },
         "is_quote_status": false,
-        "retweet_count": 6090,
-        "favorite_count": 28678,
+        "retweet_count": 40775,
+        "favorite_count": 0,
         "favorited": false,
         "retweeted": false,
         "lang": "en"
