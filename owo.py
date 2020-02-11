@@ -6,36 +6,56 @@ import keys
 text=""
 
 
+# TODO: 
+# Add UX for:
+# confirmation 
+# usability etc 
+# also put things in methods. Encapsulations
+# 
 
 
+filterList = ['://','www.','.com','.net','.gov','.org','https','http']
 
 def owo(text):
+    texts = text.split(" ")
     owod = ""
-    for i in text:
+    
+    print(texts)    
+    for i in texts:
+        print(i)
+        temp = False
+        for j in filterList:
+            if j in i:
+                owod += i
+                print(owod)
+                temp = True
+                break
+
         i.lower()
-        if i == "l" or i == "r":
-            owod += "w"
-        elif i == "L" or i == "R":
-            owod += "W"
-        # elif i == " ":
-        #     if random.randint(0,100) < 10:
-        #         helper = random.randint(0,60)
-        #         if helper < 10:
-        #             owod += " owo "
-        #         elif helper < 20 and helper >= 10:
-        #             owod += " XD "
-        #         elif helper < 30 and helper >= 20:
-        #             owod += " ouo "
-        #         elif helper < 40 and helper >= 30:
-        #             owod += " OwO *notices bulge* "
-        #         elif helper < 50 and helper >= 40:
-        #             owod += " rawr " 
-        #         else:
-        #             owod += " *nuzzles you* "
-        #     else:
-        #         owod += " "
-        else:
-            owod += i
+        if not temp:
+            if i == "l" or i == "r":
+                owod += "w"
+            elif i == "L" or i == "R":
+                owod += "W"
+            # elif i == " ":
+            #     if random.randint(0,100) < 10:
+            #         helper = random.randint(0,60)
+            #         if helper < 10:
+            #             owod += " owo "
+            #         elif helper < 20 and helper >= 10:
+            #             owod += " XD "
+            #         elif helper < 30 and helper >= 20:
+            #             owod += " ouo "
+            #         elif helper < 40 and helper >= 30:
+            #             owod += " OwO *notices bulge* "
+            #         elif helper < 50 and helper >= 40:
+            #             owod += " rawr " 
+            #         else:
+            #             owod += " *nuzzles you* "
+            #     else:
+            #         owod += " "
+            else:
+                owod += i + " "
     return owod
 
 
@@ -53,8 +73,9 @@ print(owo(text))
 
 with open("Trumps.json", 'w') as f:
     json.dump(status, f, indent=4)
-#word.update_status(status=owod)
-#print("Tweeted %s", owod)
+
+#word.update_status(status=owo(text))
+print("Tweeted:", owo(text))
 
 # ----------------- READ IN FROM FILE IF NECESSARY --------------------- #
 # filename = "TestFile" #no ".txt" plz
