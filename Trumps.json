@@ -26,137 +26,28 @@
         }
     },
     "protected": false,
-    "followers_count": 72397628,
+    "followers_count": 72415607,
     "friends_count": 47,
-    "listed_count": 114454,
+    "listed_count": 114488,
     "created_at": "Wed Mar 18 13:46:38 +0000 2009",
     "favourites_count": 8,
     "utc_offset": null,
     "time_zone": null,
     "geo_enabled": true,
     "verified": true,
-    "statuses_count": 48916,
+    "statuses_count": 48934,
     "lang": null,
     "status": {
-        "created_at": "Tue Feb 11 01:22:57 +0000 2020",
-        "id": 1227040292060180481,
-        "id_str": "1227040292060180481",
-        "text": "TOUGH GUYS FOR TRUMP! https://t.co/DbjZjGzLWU",
+        "created_at": "Tue Feb 11 13:43:27 +0000 2020",
+        "id": 1227226643976065024,
+        "id_str": "1227226643976065024",
+        "text": "Great being in New Hampshire last night. I would say that was the biggest political Rally in New Hampshire history. Incredible evening!",
         "truncated": false,
         "entities": {
             "hashtags": [],
             "symbols": [],
             "user_mentions": [],
-            "urls": [],
-            "media": [
-                {
-                    "id": 1227040174485491713,
-                    "id_str": "1227040174485491713",
-                    "indices": [
-                        22,
-                        45
-                    ],
-                    "media_url": "http://pbs.twimg.com/ext_tw_video_thumb/1227040174485491713/pu/img/HujiSR8nILs6UFnj.jpg",
-                    "media_url_https": "https://pbs.twimg.com/ext_tw_video_thumb/1227040174485491713/pu/img/HujiSR8nILs6UFnj.jpg",
-                    "url": "https://t.co/DbjZjGzLWU",
-                    "display_url": "pic.twitter.com/DbjZjGzLWU",
-                    "expanded_url": "https://twitter.com/realDonaldTrump/status/1227040292060180481/video/1",
-                    "type": "photo",
-                    "sizes": {
-                        "thumb": {
-                            "w": 150,
-                            "h": 150,
-                            "resize": "crop"
-                        },
-                        "medium": {
-                            "w": 1200,
-                            "h": 675,
-                            "resize": "fit"
-                        },
-                        "small": {
-                            "w": 680,
-                            "h": 383,
-                            "resize": "fit"
-                        },
-                        "large": {
-                            "w": 1280,
-                            "h": 720,
-                            "resize": "fit"
-                        }
-                    }
-                }
-            ]
-        },
-        "extended_entities": {
-            "media": [
-                {
-                    "id": 1227040174485491713,
-                    "id_str": "1227040174485491713",
-                    "indices": [
-                        22,
-                        45
-                    ],
-                    "media_url": "http://pbs.twimg.com/ext_tw_video_thumb/1227040174485491713/pu/img/HujiSR8nILs6UFnj.jpg",
-                    "media_url_https": "https://pbs.twimg.com/ext_tw_video_thumb/1227040174485491713/pu/img/HujiSR8nILs6UFnj.jpg",
-                    "url": "https://t.co/DbjZjGzLWU",
-                    "display_url": "pic.twitter.com/DbjZjGzLWU",
-                    "expanded_url": "https://twitter.com/realDonaldTrump/status/1227040292060180481/video/1",
-                    "type": "video",
-                    "sizes": {
-                        "thumb": {
-                            "w": 150,
-                            "h": 150,
-                            "resize": "crop"
-                        },
-                        "medium": {
-                            "w": 1200,
-                            "h": 675,
-                            "resize": "fit"
-                        },
-                        "small": {
-                            "w": 680,
-                            "h": 383,
-                            "resize": "fit"
-                        },
-                        "large": {
-                            "w": 1280,
-                            "h": 720,
-                            "resize": "fit"
-                        }
-                    },
-                    "video_info": {
-                        "aspect_ratio": [
-                            16,
-                            9
-                        ],
-                        "duration_millis": 27818,
-                        "variants": [
-                            {
-                                "content_type": "application/x-mpegURL",
-                                "url": "https://video.twimg.com/ext_tw_video/1227040174485491713/pu/pl/7Y1YMWIAr69xEfRp.m3u8?tag=10"
-                            },
-                            {
-                                "bitrate": 832000,
-                                "content_type": "video/mp4",
-                                "url": "https://video.twimg.com/ext_tw_video/1227040174485491713/pu/vid/640x360/t6rJlHz12A9bEUwP.mp4?tag=10"
-                            },
-                            {
-                                "bitrate": 256000,
-                                "content_type": "video/mp4",
-                                "url": "https://video.twimg.com/ext_tw_video/1227040174485491713/pu/vid/480x270/gmBpCIqY3j-FjHY_.mp4?tag=10"
-                            },
-                            {
-                                "bitrate": 2176000,
-                                "content_type": "video/mp4",
-                                "url": "https://video.twimg.com/ext_tw_video/1227040174485491713/pu/vid/1280x720/10A2qumMvk9LV7hy.mp4?tag=10"
-                            }
-                        ]
-                    },
-                    "additional_media_info": {
-                        "monetizable": false
-                    }
-                }
-            ]
+            "urls": []
         },
         "source": "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
         "in_reply_to_status_id": null,
@@ -169,11 +60,10 @@
         "place": null,
         "contributors": null,
         "is_quote_status": false,
-        "retweet_count": 21971,
-        "favorite_count": 84024,
+        "retweet_count": 6090,
+        "favorite_count": 28678,
         "favorited": false,
         "retweeted": false,
-        "possibly_sensitive": false,
         "lang": "en"
     },
     "contributors_enabled": false,
