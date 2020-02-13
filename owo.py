@@ -81,8 +81,15 @@ while True:
 
     if whom in owo(text): #if retweet, don't @them as well
         tweet = owo(text)
+        if len(tweet) >= 140:
+            tweet=tweet[280:]
+            
     else:
         tweet = "@" + twitter_at + " " + owo(text)
+        
+        if len(tweet) >= 280:
+            tweet=tweet[:280]
+            
 
     with open("recent.txt",'w+') as f:
         recent = f.read()
@@ -105,6 +112,7 @@ while True:
             word.update_status(status=tweet, in_reply_to_status_id = tweet_id)
             print("Tweeted:", tweet)
         except tweepy.TweepError:
+            
             print("No new tweet " + str(datetime.datetime.now()))
 
         
