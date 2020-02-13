@@ -58,7 +58,12 @@ word = tweepy.API(auth)
 people = ['realDonaldTrump']
 while True:
     whom = 'realDonaldTrump'
-    status = word.user_timeline(id = whom , count = 1, tweet_mode='extended')[0]
+    try:
+        status = word.user_timeline(id = whom , count = 1, tweet_mode='extended')[0]
+    except IndexError:
+        print("index Error. API response: ")
+        status = word.user_timeline(id = whom , count = 1, tweet_mode='extended')[0]
+    
     status = status._json
     text=""
 
