@@ -1,37 +1,8 @@
-import os, time, random, json
+import os, time, random, json, datetime
 import tweepy
 from gtts import gTTS
 import keys
 
-text=""
-
-
-# TODO: 
-# Add UX for:
-# confirmation 
-# usability etc 
-# also put things in methods. Encapsulations
-# 
-
-
-filterList = ['://','www.','.com','.net','.gov','.org','https','http', '@', '#', 'RT']
-
-auth = tweepy.OAuthHandler(keys.API_KEY[0], keys.API_KEY[1])
-auth.set_access_token(keys.ACCESS_TOKEN[0],keys.ACCESS_TOKEN[1])
-word = tweepy.API(auth)
-people = ['realDonaldTrump']
-whom = 'realDonaldTrump'
-status = word.user_timeline(id = whom , count = 1, tweet_mode='extended')[0]
-status = status._json
-
-with open("Trumps.json", 'w') as f:
-    json.dump(status, f, indent=4)
-
-text = status['full_text']
-# text = text['text']
-tweet_id = status['id']
-twitter_at = status['user']['screen_name']
-print(twitter_at)
 
 def owo(text):
     texts = text.split(" ")
@@ -71,26 +42,70 @@ def owo(text):
         owod += " "
     return owod
 
+# TODO: 
+# Add UX for:
+# confirmation 
+# usability etc 
+# also put things in methods. Encapsulations
+# 
 
 
-# print(text)
-# print(owo(text))
+filterList = ['://','www.','.com','.net','.gov','.org','https','http', '@', '#', 'RT']
 
-tweet = ''
-# tweet = "@" + twitter_at + " " + owo(text)
-if whom in owo(text):
-    tweet = owo(text)
-else:
-    tweet = "@" + twitter_at + " " + owo(text)
+auth = tweepy.OAuthHandler(keys.API_KEY[0], keys.API_KEY[1])
+auth.set_access_token(keys.ACCESS_TOKEN[0],keys.ACCESS_TOKEN[1])
+word = tweepy.API(auth)
+people = ['realDonaldTrump']
+while True:
+    whom = 'realDonaldTrump'
+    status = word.user_timeline(id = whom , count = 1, tweet_mode='extended')[0]
+    status = status._json
+    text=""
 
+    # with open("Trumps.json", 'w') as f: #inspection of API response
+    #     json.dump(status, f, indent=4)
 
+    text = status['full_text']
+    tweet_id = status['id']
+    twitter_at = status['user']['screen_name']
 
-confirm = input("Would you like to tweet: " + tweet + " (y/n) ") 
-if confirm == "y" or confirm == "Y":
-    word.update_status(status=tweet, in_reply_to_status_id = tweet_id)
-    print("Tweeted:", tweet)
-else:
-    print("Not tweeted")
+    # print(text)
+    # print(owo(text))
+
+    tweet = ''
+
+    if whom in owo(text): #if retweet, don't @them as well
+        tweet = owo(text)
+    else:
+        tweet = "@" + twitter_at + " " + owo(text)
+
+    with open("recent.txt",'w+') as f:
+        recent = f.read()
+        
+        if recent == tweet:
+            print("Already tweeted this")
+            tweeted = True
+        else:
+            # print(recent)
+            # print(tweet)
+            # print(recent == tweet)
+            tweeted=False
+            f.truncate(0)
+            try:
+                f.write(tweet)
+            except:
+                print("Can't write tweet, relying on err 187")
+    if not tweeted:
+        try:
+            word.update_status(status=tweet, in_reply_to_status_id = tweet_id)
+            print("Tweeted:", tweet)
+        except tweepy.TweepError:
+            print("No new tweet " + str(datetime.datetime.now()))
+
+        
+        
+    
+    time.sleep(20)
 
 
 # ----------------- READ IN FROM FILE IF NECESSARY --------------------- #

@@ -68,9 +68,9 @@
             }
         },
         "protected": false,
-        "followers_count": 72439721,
+        "followers_count": 72439983,
         "friends_count": 47,
-        "listed_count": 114537,
+        "listed_count": 114541,
         "created_at": "Wed Mar 18 13:46:38 +0000 2009",
         "favourites_count": 8,
         "utc_offset": null,
@@ -107,8 +107,8 @@
     "place": null,
     "contributors": null,
     "is_quote_status": false,
-    "retweet_count": 10326,
-    "favorite_count": 37536,
+    "retweet_count": 10591,
+    "favorite_count": 38604,
     "favorited": false,
     "retweeted": false,
     "lang": "en"
