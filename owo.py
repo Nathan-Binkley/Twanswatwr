@@ -43,11 +43,8 @@ def owo(text):
     return owod
 
 # TODO: 
-# Add UX for:
-# confirmation 
-# usability etc 
-# also put things in methods. Encapsulations
-# 
+# Encapsulations
+# Specific Tweepy.TweepError handling. Right now it's just general 
 
 
 filterList = ['://','www.','.com','.net','.gov','.org','https','http', '@', '#', 'RT']
@@ -58,67 +55,66 @@ word = tweepy.API(auth)
 people = ['realDonaldTrump']
 while True:
     whom = 'realDonaldTrump'
-    try:
-        status = word.user_timeline(id = whom , count = 1, tweet_mode='extended')[0]
-    except IndexError:
-        print("index Error. API response: ")
-        status = word.user_timeline(id = whom , count = 1, tweet_mode='extended')[0]
     
-    status = status._json
-    text=""
+    response = word.user_timeline(id = whom , count = 1, tweet_mode='extended')
+    if len(response) > 0:
+        status = response[0]
+        status = status._json
+        text=""
 
-    # with open("Trumps.json", 'w') as f: #inspection of API response
-    #     json.dump(status, f, indent=4)
+        # with open("Trumps.json", 'w') as f: #inspection of API response
+        #     json.dump(status, f, indent=4)
 
-    text = status['full_text']
-    tweet_id = status['id']
-    twitter_at = status['user']['screen_name']
+        text = status['full_text']
+        tweet_id = status['id']
+        twitter_at = status['user']['screen_name']
 
-    # print(text)
-    # print(owo(text))
+        # print(text)
+        # print(owo(text))
 
-    tweet = ''
+        tweet = ''
 
-    if whom in owo(text): #if retweet, don't @them as well
-        tweet = owo(text)
-        if len(tweet) >= 140:
-            tweet=tweet[280:]
-            
-    else:
-        tweet = "@" + twitter_at + " " + owo(text)
-        
-        if len(tweet) >= 280:
-            tweet=tweet[:280]
-            
-
-    with open("recent.txt",'w+') as f:
-        recent = f.read()
-        
-        if recent == tweet:
-            print("Already tweeted this")
-            tweeted = True
+        if whom in owo(text): #if retweet, don't @them as well
+            tweet = owo(text)
+            if len(tweet) >= 140:
+                tweet=tweet[280:]
+                
         else:
-            # print(recent)
-            # print(tweet)
-            # print(recent == tweet)
-            tweeted=False
-            f.truncate(0)
-            try:
-                f.write(tweet)
-            except:
-                print("Can't write tweet, relying on err 187")
-    if not tweeted:
-        try:
-            word.update_status(status=tweet, in_reply_to_status_id = tweet_id)
-            print("Tweeted:", tweet)
-        except tweepy.TweepError:
+            tweet = "@" + twitter_at + " " + owo(text)
             
-            print("No new tweet " + str(datetime.datetime.now()))
+            if len(tweet) >= 280:
+                tweet=tweet[:280]
+                
 
-        
-        
-    
+        with open("recent.txt",'w+') as f:
+            recent = f.read()
+            
+            if recent == tweet:
+                print("Already tweeted this")
+                tweeted = True
+            else:
+                tweeted=False
+                f.truncate(0)
+                try:
+                    f.write(tweet)
+                except:
+                    print("Can't write tweet, relying on err 187")
+        if not tweeted:
+            try:
+                word.update_status(status=tweet, in_reply_to_status_id = tweet_id)
+                print("Tweeted:", tweet)
+            except tweepy.TweepError:
+                
+                print("No new tweet " + str(datetime.datetime.now()))
+    else:
+        print("tweepy.TweepError")
+        print(response)
+        print("else block")
+
     time.sleep(20)
+
+   
+    
 
 
 # ----------------- READ IN FROM FILE IF NECESSARY --------------------- #
