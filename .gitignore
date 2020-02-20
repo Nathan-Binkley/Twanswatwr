@@ -6,3 +6,4 @@ keys.py
 Trumps.json
 __pycache__
 
+*.json

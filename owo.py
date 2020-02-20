@@ -107,7 +107,7 @@ while True:
 
         
         if tweet_id in keys.already_responded_ids:
-            print("Already responded to this")
+            print("Already responded to this TweetID: " + str(tweet_id))
             tweeted = True
         else:
             tweeted=False
