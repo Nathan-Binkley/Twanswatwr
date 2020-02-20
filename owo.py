@@ -40,6 +40,21 @@ def owo(text):
                 else:
                     owod += j
         owod += " "
+
+    # if len(owod) < 150:
+    #     helper = random.randint(0,60)
+    #     if helper < 10:
+    #         owod += "owo "
+    #     elif helper < 20 and helper >= 10:
+    #         owod += "XD "
+    #     elif helper < 30 and helper >= 20:
+    #         owod += "ouo "
+    #     elif helper < 40 and helper >= 30:
+    #         owod += "OwO *notices bulge* "
+    #     elif helper < 50 and helper >= 40:
+    #         owod += "rawr " 
+    #     else:
+    #         owod += "*nuzzles you* "
     return owod
 
 # TODO: 
@@ -52,7 +67,7 @@ filterList = ['://','www.','.com','.net','.gov','.org','https','http', '@', '#',
 auth = tweepy.OAuthHandler(keys.API_KEY[0], keys.API_KEY[1])
 auth.set_access_token(keys.ACCESS_TOKEN[0],keys.ACCESS_TOKEN[1])
 word = tweepy.API(auth)
-people = ['realDonaldTrump']
+people = ['realDonaldTrump','ewarren','BernieSanders','JoeBiden']
 while True:
     whom = 'realDonaldTrump'
     
@@ -62,11 +77,15 @@ while True:
         status = status._json
         text=""
 
-        # with open("Trumps.json", 'w') as f: #inspection of API response
-        #     json.dump(status, f, indent=4)
+        with open("Trumps.json", 'w') as f: #inspection of API response
+            json.dump(status, f, indent=4)
 
-        text = status['full_text']
-        tweet_id = status['id']
+        try:
+            text = status['retweeted_status']['full_text'] #if retweet
+            tweet_id = ['retweeted_status']['id']
+        except:          
+            text = status['full_text']
+            tweet_id = status['id']
         twitter_at = status['user']['screen_name']
 
         # print(text)
@@ -86,25 +105,19 @@ while True:
                 tweet=tweet[:280]
                 
 
-        with open("recent.txt",'w+') as f:
-            recent = f.read()
-            
-            if recent == tweet:
-                print("Already tweeted this")
-                tweeted = True
-            else:
-                tweeted=False
-                f.truncate(0)
-                try:
-                    f.write(tweet)
-                except:
-                    print("Can't write tweet, relying on err 187")
+        
+        if tweet_id in keys.already_responded_ids:
+            print("Already responded to this")
+            tweeted = True
+        else:
+            tweeted=False
+            keys.already_responded_ids.append(tweet_id)
+
         if not tweeted:
             try:
                 word.update_status(status=tweet, in_reply_to_status_id = tweet_id)
                 print("Tweeted:", tweet)
             except tweepy.TweepError:
-                
                 print("No new tweet " + str(datetime.datetime.now()))
     else:
         print("tweepy.TweepError")
@@ -128,7 +141,7 @@ while True:
 
 # -------------------- UNCOMMENT FOR TEXT-TO-SPEECH -------------------------- #
 
-# tts = gTTS(text=owod, lang='en')
+# tts = gTTS(text=owo(tweet), lang='en')
 # tts.save("welcome.mp3") 
   
 # Playing the converted file 

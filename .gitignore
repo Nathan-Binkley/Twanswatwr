@@ -3,5 +3,6 @@ keys.py
 *.txt
 *.mp3
 *.pyc
+Trumps.json
 __pycache__
-*.json
+
