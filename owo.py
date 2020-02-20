@@ -67,64 +67,69 @@ filterList = ['://','www.','.com','.net','.gov','.org','https','http', '@', '#',
 auth = tweepy.OAuthHandler(keys.API_KEY[0], keys.API_KEY[1])
 auth.set_access_token(keys.ACCESS_TOKEN[0],keys.ACCESS_TOKEN[1])
 word = tweepy.API(auth)
-people = ['realDonaldTrump','ewarren','BernieSanders','JoeBiden']
+people = ['realDonaldTrump','ewarren','BernieSanders','JoeBiden','AOC']
 while True:
-    whom = 'realDonaldTrump'
-    
-    response = word.user_timeline(id = whom , count = 1, tweet_mode='extended')
-    if len(response) > 0:
-        status = response[0]
-        status = status._json
-        text=""
-
-        with open("Trumps.json", 'w') as f: #inspection of API response
-            json.dump(status, f, indent=4)
-
-        try:
-            text = status['retweeted_status']['full_text'] #if retweet
-            tweet_id = ['retweeted_status']['id']
-        except:          
-            text = status['full_text']
-            tweet_id = status['id']
-        twitter_at = status['user']['screen_name']
-
-        # print(text)
-        # print(owo(text))
-
-        tweet = ''
-
-        if whom in owo(text): #if retweet, don't @them as well
-            tweet = owo(text)
-            if len(tweet) >= 140:
-                tweet=tweet[280:]
-                
-        else:
-            tweet = "@" + twitter_at + " " + owo(text)
-            
-            if len(tweet) >= 280:
-                tweet=tweet[:280]
-                
-
+    for i in people:
+        whom = i
         
-        if tweet_id in keys.already_responded_ids:
-            print("Already responded to this TweetID: " + str(tweet_id))
-            tweeted = True
-        else:
-            tweeted=False
-            keys.already_responded_ids.append(tweet_id)
+        response = word.user_timeline(id = whom , count = 1, tweet_mode='extended')
+        if len(response) > 0:
+            status = response[0]
+            status = status._json
+            text=""
 
-        if not tweeted:
+            with open("Trumps.json", 'w') as f: #inspection of API response
+                json.dump(status, f, indent=4)
+
             try:
-                word.update_status(status=tweet, in_reply_to_status_id = tweet_id)
-                print("Tweeted:", tweet)
-            except tweepy.TweepError:
-                print("No new tweet " + str(datetime.datetime.now()))
-    else:
-        print("tweepy.TweepError")
-        print(response)
-        print("else block")
+                text = status['retweeted_status']['full_text'] #if retweet
+                tweet_id = ['retweeted_status']['id']
+            except:     
+                text = status['full_text']
+                tweet_id = status['id']
+                
+            twitter_at = status['user']['screen_name']
 
-    time.sleep(20)
+            # print(text)
+            # print(owo(text))
+
+            tweet = ''
+
+            if whom in owo(text): #if retweet, don't @them as well
+                tweet = owo(text)
+                if len(tweet) >= 140:
+                    tweet=tweet[280:]
+                    
+            else:
+                tweet = "@" + twitter_at + " " + owo(text)
+                
+                if len(tweet) >= 280:
+                    tweet=tweet[:280]
+                    
+
+            
+            if tweet_id in keys.already_responded_ids:
+                print("Already responded to this TweetID: " + str(tweet_id))
+                tweeted = True
+            else:
+                tweeted=False
+                keys.already_responded_ids.append(tweet_id)
+                print("new Tweet ID: " + str(tweet_id))
+                with open("IDS.txt", "a+") as f:
+                    f.write(str(tweet_id) + "\n")
+
+            if not tweeted:
+                try:
+                    word.update_status(status=tweet, in_reply_to_status_id = tweet_id)
+                    print("Tweeted:", tweet)
+                except tweepy.TweepError:
+                    print("No new tweet " + str(datetime.datetime.now()))
+        else:
+            print("tweepy.TweepError")
+            print(response)
+            print("else block")
+
+    time.sleep(10)
 
    
     
