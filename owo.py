@@ -86,7 +86,7 @@ people_id = ['1230678480896937984', '1230694420078567424', '1230685093850701825'
 person = ['1230678480896937984']
 processingQueue = []
 
-# myStreamListener = MyStreamListener()
+# myStreamListener = MyStreamListener() ### Stream Listener? Absolute Garbage. Don't use it.
 # myStream = tweepy.Stream(auth = word.auth, listener=myStreamListener)
 # myStream.filter(follow=person, is_async=True)
 
