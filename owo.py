@@ -1,4 +1,4 @@
-import os, time, random, json, datetime
+import os, time, random, json, datetime, io 
 import tweepy
 from gtts import gTTS
 import keys
@@ -10,12 +10,27 @@ import sys
 class MyStreamListener(tweepy.StreamListener):
 
     def on_status(self, status):
-        if status.user.screen_name == 'realDonaldTrump':
-            print(status.full_text)
-            return False
+        #if status.user.screen_name == 'realDonaldTrump':
         print(status.user.screen_name)
         
-
+        with io.open("Trumps2.json", "w", encoding='utf8') as f:
+            json.dump(status._json, f, indent=4)
+        if hasattr(status, 'retweeted_status'):
+            try:
+                tweet = status._json.retweeted_status.extended_tweet["full_text"]
+            except:
+                print("\nRetweet doesn't have extended Tweet\n")
+                tweet = status._json.retweeted_status.text
+        else:
+            try:
+                tweet = status._json.extended_tweet["full_text"]
+            except AttributeError:
+                print("\nStatus doesn't have extended_tweet ATTR\n")
+                tweet = status._json.text
+        with io.open("Trumps2.txt", "a+", encoding='utf8') as f:
+            f.write(tweet + "\n")
+        print(tweet)
+        
     def on_error(self, status_code):
         if status_code == 420:
             #returning False in on_error disconnects the stream
@@ -151,7 +166,7 @@ while True:
             print("new Tweet ID " + str(tweet_id) + " from " + str(i))
             try:
                 with open("IDS.txt", "a+") as f:
-                    f.write(str(tweet_id) + " " + text +  "\n")
+                    f.write(str(tweet_id) + " " + text.strip() +  "\n")
             except: 
                 print("Can't write tweet")
                 with open("IDS.txt", "a+") as f:
