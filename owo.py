@@ -3,11 +3,18 @@ import tweepy
 from gtts import gTTS
 import keys
 
+import sys
+
+
 
 class MyStreamListener(tweepy.StreamListener):
 
     def on_status(self, status):
-        print(status.text)
+        if status.user.screen_name == 'realDonaldTrump':
+            print(status.full_text)
+            return False
+        print(status.user.screen_name)
+        
 
     def on_error(self, status_code):
         if status_code == 420:
@@ -81,15 +88,17 @@ filterList = ['://','www.','.com','.net','.gov','.org','https','http', '@', '#',
 auth = tweepy.OAuthHandler(keys.API_KEY[0], keys.API_KEY[1])
 auth.set_access_token(keys.ACCESS_TOKEN[0],keys.ACCESS_TOKEN[1])
 word = tweepy.API(auth)
-people = ['realDonaldTrump','ewarren','BernieSanders','JoeBiden','AOC','LindseyGrahamSC']
-people_id = ['1230678480896937984', '1230694420078567424', '1230685093850701825', '1230685572714418176', '1230697952240291844','1230613975290740736']
-person = ['1230678480896937984']
+
+people_at = ['realDonaldTrump', 'ewarren', 'BernieSanders', 'JoeBiden', 'AOC', 'LindseyGrahamSC']
+people_id = ['25073877', '1230694420078567424', '1230685093850701825', '1230685572714418176', '1230697952240291844','1230613975290740736']
+person = ['25073877']
 processingQueue = []
 
-# myStreamListener = MyStreamListener() ### Stream Listener? Absolute Garbage. Don't use it.
-# myStream = tweepy.Stream(auth = word.auth, listener=myStreamListener)
-# myStream.filter(follow=person, is_async=True)
+myStreamListener = MyStreamListener() 
+myStream = tweepy.Stream(auth = word.auth, listener=myStreamListener)
+myStream.filter(follow=person, is_async=False)
 
+'''
 while True:
     # for i in people:
     whom = 'realDonaldTrump'
@@ -174,7 +183,7 @@ while True:
 
     time.sleep(10)
 
-   
+'''
     
 
 
