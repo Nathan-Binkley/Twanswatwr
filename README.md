@@ -19,4 +19,8 @@ I began to take more motivation from other's projects. I showed my friends the n
 
 Then, I remembered I had a Twitter account.
 
-My first instinct was to think about what to do. Within a few days, I had it. Owo. Trump's. Tweets. Regardless of political standing this was one of my best ideas. I applied for a Twitter Developer API access key that same night.W
+My first instinct was to think about what to do. Within a few days, I had it. Owo. Trump's. Tweets. Regardless of political standing this was one of my best ideas. I applied for a Twitter Developer API access key that same night. 
+
+My rationale is pretty simple. Nobody takes anything more serious than followers of politicians on Twitter. Their followers generally treat the words of these people as if they're the word of whatever spirit you may believe in. These people were the perfect target for a harmless practical joke and it was a journey.
+
+

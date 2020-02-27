@@ -15,8 +15,8 @@ class MyStreamListener(tweepy.StreamListener):
             
             tweet_id = status.id
 
-            print(tweet_id)
             print(whom + " just tweeted new ID: " + str(tweet_id))
+            
 
             with io.open("Trumps2.json", "w", encoding='utf8') as f:
                 json.dump(status._json, f, indent=4)
@@ -31,7 +31,7 @@ class MyStreamListener(tweepy.StreamListener):
                     tweet = status.extended_tweet["full_text"]
                 except AttributeError:
                     tweet = status.text
-
+            print("With Status: " + tweet)
             with io.open("Trumps2.txt", "a+", encoding='utf8') as f:
                 f.write(tweet + "\n")   
 
@@ -40,12 +40,22 @@ class MyStreamListener(tweepy.StreamListener):
             else:
                 tweet = "@" + whom + " " + owo(tweet)
 
-            if len(tweet) >= 280:
-                tweet=tweet[:270]
+            # if len(tweet) > 280:
+            #     tweet=tweet[:279]
 
             print("Tweeting: " + tweet + "\n\n")
-            word.update_status(status=tweet, in_reply_to_status_id = tweet_id)
-
+            try:
+                word.update_status(status=tweet, in_reply_to_status_id = tweet_id)
+            except tweepy.TweepError:
+                try:
+                    word.update_status(status=tweet[:278], in_reply_to_status_id=tweet_id)
+                except:
+                    try:
+                        word.update_status(status=tweet[:270], in_reply_to_status_id=tweet_id)
+                    except:
+                        word.update_status(status=tweet[:250], in_reply_to_status_id=tweet_id)
+            except:
+                print("Error, Unknown issue")
         
     def on_error(self, status_code):
         if status_code == 420:
