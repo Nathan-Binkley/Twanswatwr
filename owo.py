@@ -10,26 +10,42 @@ import sys
 class MyStreamListener(tweepy.StreamListener):
 
     def on_status(self, status):
-        #if status.user.screen_name == 'realDonaldTrump':
-        print(status.user.screen_name)
-        
-        with io.open("Trumps2.json", "w", encoding='utf8') as f:
-            json.dump(status._json, f, indent=4)
-        if hasattr(status, 'retweeted_status'):
-            try:
-                tweet = status._json.retweeted_status.extended_tweet["full_text"]
-            except:
-                print("\nRetweet doesn't have extended Tweet\n")
-                tweet = status._json.retweeted_status.text
-        else:
-            try:
-                tweet = status._json.extended_tweet["full_text"]
-            except AttributeError:
-                print("\nStatus doesn't have extended_tweet ATTR\n")
-                tweet = status._json.text
-        with io.open("Trumps2.txt", "a+", encoding='utf8') as f:
-            f.write(tweet + "\n")
-        print(tweet)
+        whom = status.user.screen_name
+        if whom in people_at:
+            
+            tweet_id = status.id
+
+            print(tweet_id)
+            print(whom + " just tweeted new ID: " + str(tweet_id))
+
+            with io.open("Trumps2.json", "w", encoding='utf8') as f:
+                json.dump(status._json, f, indent=4)
+
+            if hasattr(status, 'retweeted_status'):
+                try:
+                    tweet = status.retweeted_status.extended_tweet["full_text"]
+                except:
+                    tweet = status.retweeted_status.text
+            else:
+                try:
+                    tweet = status.extended_tweet["full_text"]
+                except AttributeError:
+                    tweet = status.text
+
+            with io.open("Trumps2.txt", "a+", encoding='utf8') as f:
+                f.write(tweet + "\n")   
+
+            if whom in owo(tweet): #if retweet, don't @them as well
+                tweet = owo(tweet)
+            else:
+                tweet = "@" + whom + " " + owo(tweet)
+
+            if len(tweet) >= 280:
+                tweet=tweet[:270]
+
+            print("Tweeting: " + tweet + "\n\n")
+            word.update_status(status=tweet, in_reply_to_status_id = tweet_id)
+
         
     def on_error(self, status_code):
         if status_code == 420:
@@ -105,116 +121,111 @@ auth.set_access_token(keys.ACCESS_TOKEN[0],keys.ACCESS_TOKEN[1])
 word = tweepy.API(auth)
 
 people_at = ['realDonaldTrump', 'ewarren', 'BernieSanders', 'JoeBiden', 'AOC', 'LindseyGrahamSC']
-people_id = ['25073877', '1230694420078567424', '1230685093850701825', '1230685572714418176', '1230697952240291844','1230613975290740736']
+people_id = ['25073877', '357606935', '216776631', '939091', '138203134','432895323']
 person = ['25073877']
-processingQueue = []
 
 myStreamListener = MyStreamListener() 
 myStream = tweepy.Stream(auth = word.auth, listener=myStreamListener)
-myStream.filter(follow=person, is_async=False)
+myStream.filter(follow=people_id, is_async=False) #Best solution.
 
-'''
-while True:
-    # for i in people:
-    whom = 'realDonaldTrump'
-    i = whom
+
+def getIDs(listOfPeopleAts):
+    for i in listOfPeopleAts:
+        response = word.user_timeline(id = i, count=1)
+        print(response[0]._json['user']['id'])
+        print(response[0]._json['user']['screen_name'])
     
-    response = word.user_timeline(id = whom , count = 1, tweet_mode='extended')
-    if len(response) > 0:
-        status = response[0]
-        status = status._json
-        text=""
 
-        with open("Trumps.json", 'w') as f: #inspection of API response
-            json.dump(status, f, indent=4)
-
-        try:
-            text = status['retweeted_status'] #if retweet
-            text = text['full_text']
-            tweet_id = status['retweeted_status']
-            tweet_id = tweet_id['id']
-        except:     
-            text = status['full_text']
-            tweet_id = status['id']
+def orig_owo():
+    while True:
+        # for i in people:
+        whom = 'realDonaldTrump'
+        i = whom
         
-        twitter_at = status['user']['screen_name']
+        response = word.user_timeline(id = whom , count = 1, tweet_mode='extended')
+        if len(response) > 0:
+            status = response[0]
+            status = status._json
+            text=""
 
-        # print(text)
-        # print(owo(text))
+            with open("Trumps.json", 'w') as f: #inspection of API response
+                json.dump(status, f, indent=4)
 
-        tweet = ''
-
-        if whom in owo(text): #if retweet, don't @them as well
-            tweet = owo(text)
-            if len(tweet) >= 140:
-                tweet=tweet[280:]
-                
-        else:
-            tweet = "@" + twitter_at + " " + owo(text)
+            try:
+                text = status['retweeted_status'] #if retweet
+                text = text['full_text']
+                tweet_id = status['retweeted_status']
+                tweet_id = tweet_id['id']
+            except:     
+                text = status['full_text']
+                tweet_id = status['id']
             
-            if len(tweet) >= 280:
-                tweet=tweet[:280]
-                
+            twitter_at = status['user']['screen_name']
 
-        
-        if tweet_id in keys.already_responded_ids:
-            print("Already responded to this TweetID " + str(tweet_id) + " from " + str(i))
-            tweeted = True
-        else:
-            tweeted=False
-            keys.already_responded_ids[tweet_id] = text
-            print("new Tweet ID " + str(tweet_id) + " from " + str(i))
-            try:
-                with open("IDS.txt", "a+") as f:
-                    f.write(str(tweet_id) + " " + text.strip() +  "\n")
-            except: 
-                print("Can't write tweet")
-                with open("IDS.txt", "a+") as f:
-                    f.write(str(tweet_id) + " Can't write tweet" +  "\n")
+            # print(text)
+            # print(owo(text))
 
-        if not tweeted:
-            try:
-                word.update_status(status=tweet, in_reply_to_status_id = tweet_id)
-                print("Tweeted:", tweet)
+            tweet = ''
+
+            if tweet_id in keys.already_responded_ids:
+                print("Already responded to this TweetID " + str(tweet_id) + " from " + str(i))
+                tweeted = True
+            else:
+                tweeted=False
+                keys.already_responded_ids[tweet_id] = text
+                print("new Tweet ID " + str(tweet_id) + " from " + str(i))
                 try:
-                        
-                    with open(i+'_log.txt', "a+") as f:
-                        f.write(str(datetime.datetime.now()) + " " + text + "\n" + tweet + "\n\n")
+                    with open("IDS.txt", "a+") as f:
+                        f.write(str(tweet_id) + " " + text.strip() +  "\n")
                 except: 
                     print("Can't write tweet")
                     with open("IDS.txt", "a+") as f:
                         f.write(str(tweet_id) + " Can't write tweet" +  "\n")
 
-            except tweepy.TweepError:
-                print("No new tweet from " + i + " at time " + str(datetime.datetime.now()))
+            if not tweeted:
+                try:
+                    
+                    print("Tweeted:", tweet)
+                    try:
+                            
+                        with open(i+'_log.txt', "a+") as f:
+                            f.write(str(datetime.datetime.now()) + " " + text + "\n" + tweet + "\n\n")
+                    except: 
+                        print("Can't write tweet")
+                        with open("IDS.txt", "a+") as f:
+                            f.write(str(tweet_id) + " Can't write tweet" +  "\n")
 
-            except:
-                with open(i+'_log.txt', "a+") as f:
-                    f.write(str(datetime.datetime.now()) + " Cannot Write Tweet -- Not ASCII" + "\n\n")
-                print("writeError, not ASCII")
-    else:
-        print("Returned Empty List")
-        
+                except tweepy.TweepError:
+                    print("No new tweet from " + i + " at time " + str(datetime.datetime.now()))
 
-    time.sleep(10)
+                except:
+                    with open(i+'_log.txt', "a+") as f:
+                        f.write(str(datetime.datetime.now()) + " Cannot Write Tweet -- Not ASCII" + "\n\n")
+                    print("writeError, not ASCII")
+        else:
+            print("Returned Empty List")
+            
 
-'''
-    
+        time.sleep(10)
+
+
+
 
 
 # ----------------- READ IN FROM FILE IF NECESSARY --------------------- #
-# filename = "TestFile" #no ".txt" plz
-# with open(filename + ".txt", "r") as f:
-#     text = f.read()
+def in_files(name):
+    filename = name #no ".txt" plz
+    with open(filename + ".txt", "r") as f:
+        text = f.read()
 
-# with open(filename + "_owod.txt","w+") as f:
-#     f.write(owod)
+    with open(filename + "_owod.txt","w+") as f:
+        f.write(owo(text))
 
 
 # -------------------- UNCOMMENT FOR TEXT-TO-SPEECH -------------------------- #
-
-# tts = gTTS(text=owo(tweet), lang='en')
-# tts.save("welcome.mp3") 
-  
-# Playing the converted file 
-# os.system('start '+ keys.wmfilepath + ' ' + keys.mp3filepath + 'welcome.mp3"')
+def to_Speech(text):
+    tts = gTTS(text=owo(text), lang='en')
+    tts.save("owo.mp3") 
+    
+    #Playing the converted file (keys.wmfilepath = path to windows media player)
+    os.system('start '+ keys.wmfilepath + ' ' + keys.mp3filepath + 'owo.mp3"')
