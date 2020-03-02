@@ -122,6 +122,7 @@ def owo(text):
 # Encapsulations
 # Specific Tweepy.TweepError handling. Right now it's just general 
 
+#SETTINGS
 
 filterList = ['://','www.','.com','.net','.gov','.org','https','http', '@', '#', 'RT']
 
@@ -129,13 +130,15 @@ auth = tweepy.OAuthHandler(keys.API_KEY[0], keys.API_KEY[1])
 auth.set_access_token(keys.ACCESS_TOKEN[0],keys.ACCESS_TOKEN[1])
 word = tweepy.API(auth)
 
-people_at = ['realDonaldTrump', 'ewarren', 'BernieSanders', 'JoeBiden', 'AOC', 'LindseyGrahamSC']
-people_id = ['25073877', '357606935', '216776631', '939091', '138203134','432895323']
+people_at = ['realDonaldTrump', 'ewarren', 'BernieSanders', 'JoeBiden', 'LindseyGrahamSC']#, 'Anon1Anti']
+people_id = ['25073877', '357606935', '216776631', '939091','432895323']#,'1212229630691643392']
 person = ['25073877']
 
-myStreamListener = MyStreamListener() 
-myStream = tweepy.Stream(auth = word.auth, listener=myStreamListener)
-myStream.filter(follow=people_id, is_async=False) #Best solution.
+
+def launch_stream():
+    myStreamListener = MyStreamListener() 
+    myStream = tweepy.Stream(auth = word.auth, listener=myStreamListener)
+    myStream.filter(follow=people_id, is_async=False) #Best solution.
 
 
 def getIDs(listOfPeopleAts):
@@ -143,9 +146,9 @@ def getIDs(listOfPeopleAts):
         response = word.user_timeline(id = i, count=1)
         print(response[0]._json['user']['id'])
         print(response[0]._json['user']['screen_name'])
-    
 
-def orig_owo():
+
+def orig_owo(): #first solution, loops through the list every 10 seconds. Resulted in badness
     while True:
         # for i in people:
         whom = 'realDonaldTrump'
@@ -217,10 +220,6 @@ def orig_owo():
 
         time.sleep(10)
 
-
-
-
-
 # ----------------- READ IN FROM FILE IF NECESSARY --------------------- #
 def in_files(name):
     filename = name #no ".txt" plz
@@ -238,3 +237,7 @@ def to_Speech(text):
     
     #Playing the converted file (keys.wmfilepath = path to windows media player)
     os.system('start '+ keys.wmfilepath + ' ' + keys.mp3filepath + 'owo.mp3"')
+
+# ------------------- MAIN CODE HERE --------------------------------#
+
+launch_stream()

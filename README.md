@@ -23,4 +23,12 @@ My first instinct was to think about what to do. Within a few days, I had it. Ow
 
 My rationale is pretty simple. Nobody takes anything more serious than followers of politicians on Twitter. Their followers generally treat the words of these people as if they're the word of whatever spirit you may believe in. These people were the perfect target for a harmless practical joke and it was a journey.
 
+My first solution involved pinging the API every 10 seconds for everyone's most recent tweet. Not only was this not fast enough, it also resulted in me overloading the 150req/15min limit that Twitter has. This obviously wasn't working.
 
+I swapped this out with the Streaming API where it currently sits.
+
+# The Current State of things
+
+Currently The system works on my laptop. I have to re-launch it every time I shut it. My colleagues keep telling me I should upload it to AWS Lambda, which honestly might be a good idea.
+
+I also want to take the data and put it in a database. 
