@@ -7,6 +7,7 @@ import sys
 
 
 
+
 class MyStreamListener(tweepy.StreamListener):
 
     def on_status(self, status):
@@ -240,4 +241,15 @@ def to_Speech(text):
 
 # ------------------- MAIN CODE HERE --------------------------------#
 
-launch_stream()
+##Connect to DB
+mydb = mysql.connector.connect(host = 'localhost', user=keys.DB_User, passwd=keys.DB_Pass)
+
+mycursor = mydb.cursor()
+
+mycursor.execute("CREATE DATABASE mydatabase")
+mycursor.execute("SHOW DATABASES")
+
+for x in mycursor:
+    print(x)
+
+#launch_stream()
