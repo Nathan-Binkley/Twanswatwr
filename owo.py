@@ -13,46 +13,38 @@ class MyStreamListener(tweepy.StreamListener):
     def on_status(self, status):
         whom = status.user.screen_name
         if whom in people_at:
-        
-            tweet_id = status.id
-            print(whom + " just tweeted new ID: " + str(tweet_id))
-
-            with io.open("Trumps2.json", "w", encoding='utf8') as f:
-                json.dump(status._json, f, indent=4)
-
-            if hasattr(status, 'retweeted_status'):
-                try:
-                    tweet = status.retweeted_status.extended_tweet["full_text"]
-                except:
-                    tweet = status.retweeted_status.text
-            else:
-                try:
-                    tweet = status.extended_tweet["full_text"]
-                except AttributeError:
-                    tweet = status.text
-            print("With Status: " + tweet)
-            with io.open("Trumps2.txt", "a+", encoding='utf8') as f:
-                f.write(whom + " just tweeted: " + tweet + "\n\n")   
-
-            if whom in owo(tweet): #if retweet, don't @them as well
-                tweet = owo(tweet)
-            else:
-                tweet = "@" + whom + " " + owo(tweet)
-
-            # if len(tweet) > 280:
-            #     tweet=tweet[:279]
-
-            print("Tweeting: " + tweet + "\n\n")
             try:
-                word.update_status(status=tweet, in_reply_to_status_id = tweet_id)
-            except tweepy.TweepError:
-                try:
-                    word.update_status(status=tweet[:278], in_reply_to_status_id=tweet_id)
-                except:
+                tweet_id = status.id
+                print(whom + " just tweeted new ID: " + str(tweet_id))
+
+                with io.open("Trumps2.json", "w", encoding='utf8') as f:
+                    json.dump(status._json, f, indent=4)
+
+                if hasattr(status, 'retweeted_status'):
                     try:
-                        word.update_status(status=tweet[:270], in_reply_to_status_id=tweet_id)
+                        tweet = status.retweeted_status.extended_tweet["full_text"]
                     except:
-                        word.update_status(status=tweet[:250] + "...", in_reply_to_status_id=tweet_id)
+                        tweet = status.retweeted_status.text
+                else:
+                    try:
+                        tweet = status.extended_tweet["full_text"]
+                    except AttributeError:
+                        tweet = status.text
+                print("With Status: " + tweet)
+                with io.open("Trumps2.txt", "a+", encoding='utf8') as f:
+                    f.write(whom + " just tweeted: " + tweet + "\n\n")   
+
+                if whom in owo(tweet): #if retweet, don't @them as well
+                    tweet = owo(tweet)
+                else:
+                    tweet = "@" + whom + " " + owo(tweet)
+
+                # if len(tweet) > 280:
+                #     tweet=tweet[:279]
+
+                print("Tweeting: " + tweet + "\n\n")
+                Tweet(tweet, tweet_id, 280)
+                
             except:
                 print("Error, Unknown issue")
         
@@ -134,6 +126,13 @@ word = tweepy.API(auth)
 people_at = ['realDonaldTrump', 'ewarren', 'BernieSanders', 'JoeBiden', 'LindseyGrahamSC']#, 'Anon1Anti']
 people_id = ['25073877', '357606935', '216776631', '939091','432895323']#,'1212229630691643392']
 person = ['25073877']
+
+
+def Tweet(text, resp_id, length):
+    try:
+        word.update_status(status=text[:length], in_reply_to_status_id=resp_id)
+    except:
+        Tweet(text,resp_id,length-1)
 
 
 def launch_stream():
@@ -242,14 +241,14 @@ def to_Speech(text):
 # ------------------- MAIN CODE HERE --------------------------------#
 
 ##Connect to DB
-mydb = mysql.connector.connect(host = 'localhost', user=keys.DB_User, passwd=keys.DB_Pass)
+# mydb = mysql.connector.connect(host = 'localhost', user=keys.DB_User, passwd=keys.DB_Pass)
 
-mycursor = mydb.cursor()
+# mycursor = mydb.cursor()
 
-mycursor.execute("CREATE DATABASE mydatabase")
-mycursor.execute("SHOW DATABASES")
+# mycursor.execute("CREATE DATABASE mydatabase")
+# mycursor.execute("SHOW DATABASES")
 
-for x in mycursor:
-    print(x)
+# for x in mycursor:
+#     print(x)
 
-#launch_stream()
+launch_stream()
