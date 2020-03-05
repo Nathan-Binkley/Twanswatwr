@@ -2,11 +2,16 @@ import mysql.connector
 import keys
 
 mydb = mysql.connector.connect(
-  host="tweets.sql",
+  host="localhost",
   user=keys.DB_User,
   passwd=keys.DB_Pass
 )
 
 mycursor = mydb.cursor()
 
-mycursor.execute("CREATE DATABASE mydatabase")
+try:
+    mycursor.execute("CREATE DATABASE mydatabase") #DATABASES "mydatabase" "tweets"
+except:
+    mycursor.execute("SHOW DATABASES")
+
+
