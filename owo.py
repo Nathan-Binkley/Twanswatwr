@@ -96,7 +96,7 @@ def owo(text):
         owod += " "
 
     if len(owod) < 150:
-        helper = random.randint(0,60)
+        helper = random.randint(0,70)
         if helper < 10:
             owod += "owo "
         elif helper < 20 and helper >= 10:
@@ -107,8 +107,11 @@ def owo(text):
             owod += "OwO *notices bulge* "
         elif helper < 50 and helper >= 40:
             owod += "rawr " 
+        elif helper < 60 and helper >= 50:
+            owod += "º꒳º "
         else:
             owod += "*nuzzles you* "
+
     return owod
 
 # TODO: 
@@ -123,8 +126,8 @@ auth = tweepy.OAuthHandler(keys.API_KEY[0], keys.API_KEY[1])
 auth.set_access_token(keys.ACCESS_TOKEN[0],keys.ACCESS_TOKEN[1])
 word = tweepy.API(auth)
 
-people_at = ['realDonaldTrump', 'ewarren', 'BernieSanders', 'JoeBiden', 'LindseyGrahamSC']#, 'Anon1Anti']
-people_id = ['25073877', '357606935', '216776631', '939091','432895323']#,'1212229630691643392']
+people_at = ['realDonaldTrump', 'BernieSanders', 'JoeBiden', 'LindseyGrahamSC', 'sicarium23']
+people_id = []
 person = ['25073877']
 
 
@@ -143,9 +146,9 @@ def launch_stream():
 
 def getIDs(listOfPeopleAts):
     for i in listOfPeopleAts:
-        response = word.user_timeline(id = i, count=1)
-        print(response[0]._json['user']['id'])
-        print(response[0]._json['user']['screen_name'])
+        response = word.user_timeline(id=i, count=1)
+        people_id.append(str(response[0]._json['user']['id']))
+        
 
 
 def orig_owo(): #first solution, loops through the list every 10 seconds. Resulted in badness
@@ -240,15 +243,5 @@ def to_Speech(text):
 
 # ------------------- MAIN CODE HERE --------------------------------#
 
-##Connect to DB
-# mydb = mysql.connector.connect(host = 'localhost', user=keys.DB_User, passwd=keys.DB_Pass)
-
-# mycursor = mydb.cursor()
-
-# mycursor.execute("CREATE DATABASE mydatabase")
-# mycursor.execute("SHOW DATABASES")
-
-# for x in mycursor:
-#     print(x)
-
+getIDs(people_at)
 launch_stream()
