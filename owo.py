@@ -6,6 +6,17 @@ import keys
 import sys
 
 
+#SETTINGS
+
+filterList = ['://','www.','.com','.net','.gov','.org','https','http', '@', '#', 'RT']
+
+auth = tweepy.OAuthHandler(keys.API_KEY[0], keys.API_KEY[1])
+auth.set_access_token(keys.ACCESS_TOKEN[0],keys.ACCESS_TOKEN[1])
+word = tweepy.API(auth)
+
+people_at = ['realDonaldTrump', 'BernieSanders', 'JoeBiden', 'LindseyGrahamSC']
+people_id = []
+person = ['25073877']
 
 
 class MyStreamListener(tweepy.StreamListener):
@@ -26,6 +37,7 @@ class MyStreamListener(tweepy.StreamListener):
                     except:
                         tweet = status.retweeted_status.text
                 else:
+                    
                     try:
                         tweet = status.extended_tweet["full_text"]
                     except AttributeError:
@@ -114,21 +126,8 @@ def owo(text):
 
     return owod
 
-# TODO: 
-# Encapsulations
-# Specific Tweepy.TweepError handling. Right now it's just general 
 
-#SETTINGS
 
-filterList = ['://','www.','.com','.net','.gov','.org','https','http', '@', '#', 'RT']
-
-auth = tweepy.OAuthHandler(keys.API_KEY[0], keys.API_KEY[1])
-auth.set_access_token(keys.ACCESS_TOKEN[0],keys.ACCESS_TOKEN[1])
-word = tweepy.API(auth)
-
-people_at = ['realDonaldTrump', 'BernieSanders', 'JoeBiden', 'LindseyGrahamSC', 'sicarium23']
-people_id = []
-person = ['25073877']
 
 
 def Tweet(text, resp_id, length):
