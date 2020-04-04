@@ -55,7 +55,7 @@ class MyStreamListener(tweepy.StreamListener):
                 #     tweet=tweet[:279]
 
                 print("Tweeting: " + tweet + "\n\n")
-                Tweet(tweet, tweet_id, 280)
+                Tweet(tweet, tweet_id)
                 
             except:
                 print("Error, Unknown issue")
@@ -130,11 +130,11 @@ def owo(text):
 
 
 
-def Tweet(text, resp_id, length):
+def Tweet(text, resp_id):
     try:
-        word.update_status(status=text[:length], in_reply_to_status_id=resp_id)
+        word.update_status(status=text, in_reply_to_status_id=resp_id)
     except:
-        Tweet(text,resp_id,length-1)
+        Tweet(text,resp_id[:len(text)-1])
 
 
 def launch_stream():
