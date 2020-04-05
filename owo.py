@@ -57,8 +57,9 @@ class MyStreamListener(tweepy.StreamListener):
                 print("Tweeting: " + tweet + "\n\n")
                 Tweet(tweet, tweet_id)
                 
-            except:
+            except Exception as e:
                 print("Error, Unknown issue")
+                print(e)
         
     def on_error(self, status_code):
         if status_code == 420:
@@ -134,7 +135,7 @@ def Tweet(text, resp_id):
     try:
         word.update_status(status=text, in_reply_to_status_id=resp_id)
     except:
-        Tweet(text,resp_id[:len(text)-1])
+        Tweet(text[:(len(text)-1)],resp_id)
 
 
 def launch_stream():
