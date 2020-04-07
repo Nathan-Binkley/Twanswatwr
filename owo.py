@@ -87,23 +87,6 @@ def owo(text):
                         owod += "w"
                     elif j == "L" or j == "R":
                         owod += "W"
-                    elif i == " ":
-                        if random.randint(0,100) < 10:
-                            helper = random.randint(0,60)
-                            if helper < 10:
-                                owod += " owo "
-                            elif helper < 20 and helper >= 10:
-                                owod += " XD "
-                            elif helper < 30 and helper >= 20:
-                                owod += " ouo "
-                            elif helper < 40 and helper >= 30:
-                                owod += " OwO *notices bulge* "
-                            elif helper < 50 and helper >= 40:
-                                owod += " rawr " 
-                            else:
-                                owod += " *nuzzles you* "
-                        else:
-                            owod += " "
                     else:
                         owod += j
         owod += " "
@@ -122,8 +105,10 @@ def owo(text):
             owod += "rawr " 
         elif helper < 60 and helper >= 50:
             owod += "º꒳º "
+        elif helper < 70 and helper >= 60:
+             owod += "*Kisses you from a distance because social distancing*"
         else:
-            owod += "*nuzzles you* "
+            owod += "*nuzzles your body pillow because I cant because social distancing* OwO "
 
     return owod
 
