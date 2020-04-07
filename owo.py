@@ -92,7 +92,7 @@ def owo(text):
         owod += " "
 
     if len(owod) < 150:
-        helper = random.randint(0,70)
+        helper = random.randint(0,80)
         if helper < 10:
             owod += "owo "
         elif helper < 20 and helper >= 10:
@@ -108,7 +108,7 @@ def owo(text):
         elif helper < 70 and helper >= 60:
              owod += "*Kisses you from a distance because social distancing*"
         else:
-            owod += "*nuzzles your body pillow because I cant because social distancing* OwO "
+            owod += "*nuzzles your body pillow because I cant because social distancing* OwO"
 
     return owod
 
