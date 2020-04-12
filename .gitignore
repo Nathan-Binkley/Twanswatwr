@@ -6,5 +6,7 @@ keys.py
 Trumps.json
 __pycache__
 
+toSendToAWS
+
 *.json
 Trumps.json

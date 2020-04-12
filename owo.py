@@ -14,7 +14,7 @@ auth = tweepy.OAuthHandler(keys.API_KEY[0], keys.API_KEY[1])
 auth.set_access_token(keys.ACCESS_TOKEN[0],keys.ACCESS_TOKEN[1])
 word = tweepy.API(auth)
 
-people_at = ['realDonaldTrump', 'BernieSanders', 'JoeBiden', 'LindseyGrahamSC']
+people_at = ['realDonaldTrump', 'JoeBiden', 'LindseyGrahamSC']
 people_id = []
 person = ['25073877']
 
@@ -25,23 +25,25 @@ class MyStreamListener(tweepy.StreamListener):
         whom = status.user.screen_name
         if whom in people_at:
             try:
-                tweet_id = status.id
-                print(whom + " just tweeted new ID: " + str(tweet_id))
+                
+                
 
                 with io.open("Trumps2.json", "w", encoding='utf8') as f:
                     json.dump(status._json, f, indent=4)
 
                 if hasattr(status, 'retweeted_status'):
+                    tweet_id=status.retweeted_status.id
                     try:
                         tweet = status.retweeted_status.extended_tweet["full_text"]
                     except:
                         tweet = status.retweeted_status.text
                 else:
-                    
+                    tweet_id = status.id
                     try:
                         tweet = status.extended_tweet["full_text"]
                     except AttributeError:
                         tweet = status.text
+                print(whom + " just tweeted new ID: " + str(tweet_id))
                 print("With Status: " + tweet)
                 with io.open("Trumps2.txt", "a+", encoding='utf8') as f:
                     f.write(whom + " just tweeted: " + tweet + "\n\n")   
@@ -50,9 +52,6 @@ class MyStreamListener(tweepy.StreamListener):
                     tweet = owo(tweet)
                 else:
                     tweet = "@" + whom + " " + owo(tweet)
-
-                # if len(tweet) > 280:
-                #     tweet=tweet[:279]
 
                 print("Tweeting: " + tweet + "\n\n")
                 Tweet(tweet, tweet_id)
@@ -96,13 +95,13 @@ def owo(text):
         if helper < 10:
             owod += "owo "
         elif helper < 20 and helper >= 10:
-            owod += "XD "
+            owod += "rawr XD "
         elif helper < 30 and helper >= 20:
             owod += "ouo "
         elif helper < 40 and helper >= 30:
             owod += "OwO *notices bulge* "
         elif helper < 50 and helper >= 40:
-            owod += "rawr " 
+            owod += "Pwease Daddy? I can be youw pwincess (⑅˘꒳˘) " 
         elif helper < 60 and helper >= 50:
             owod += "º꒳º "
         elif helper < 70 and helper >= 60:
@@ -114,6 +113,7 @@ def owo(text):
 
 
 
+    
 
 
 def Tweet(text, resp_id):
@@ -227,6 +227,12 @@ def to_Speech(text):
     os.system('start '+ keys.wmfilepath + ' ' + keys.mp3filepath + 'owo.mp3"')
 
 # ------------------- MAIN CODE HERE --------------------------------#
-
-getIDs(people_at)
-launch_stream()
+def main_loop():
+    getIDs(people_at)
+    # load_tweet_log()
+    while(True):
+        try:      
+            launch_stream()
+        except Exception as e:
+            print(e)
+            time.sleep(120)
