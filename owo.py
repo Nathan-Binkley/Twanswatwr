@@ -25,14 +25,13 @@ class MyStreamListener(tweepy.StreamListener):
         whom = status.user.screen_name
         if whom in people_at:
             try:
-                
-                
-
-                with io.open("Trumps2.json", "w", encoding='utf8') as f:
+                with io.open("OwO.json", "w", encoding='utf8') as f:
                     json.dump(status._json, f, indent=4)
-
+                print("New Status ID: " + str(status.id))
                 if hasattr(status, 'retweeted_status'):
                     tweet_id=status.retweeted_status.id
+                    print("Retweeted Status ID: " + str(tweet_id))
+                    #whom = status.retweeted_status.user.id
                     try:
                         tweet = status.retweeted_status.extended_tweet["full_text"]
                     except:
@@ -43,10 +42,9 @@ class MyStreamListener(tweepy.StreamListener):
                         tweet = status.extended_tweet["full_text"]
                     except AttributeError:
                         tweet = status.text
-                print(whom + " just tweeted new ID: " + str(tweet_id))
+                print(str(whom) + " just tweeted new ID: " + str(tweet_id))
                 print("With Status: " + tweet)
-                with io.open("Trumps2.txt", "a+", encoding='utf8') as f:
-                    f.write(whom + " just tweeted: " + tweet + "\n\n")   
+                
 
                 if whom in owo(tweet): #if retweet, don't @them as well
                     tweet = owo(tweet)
@@ -112,16 +110,29 @@ def owo(text):
     return owod
 
 
-
-    
-
-
 def Tweet(text, resp_id):
     try:
+        print("responding to " + str(resp_id))
         word.update_status(status=text, in_reply_to_status_id=resp_id)
-    except:
-        Tweet(text[:(len(text)-1)],resp_id)
-
+        
+    except Exception as e:
+        print(e)
+        if "[{'code': 185, 'message': 'User is over daily status update limit.'}]" in str(e):
+            print("Sleeping for 2 seconds")
+            time.sleep(2)
+            Tweet(text,resp_id)
+        elif "[{'code': 186, 'message': 'Tweet needs to be a bit shorter.'}]" in str(e):
+            time.sleep(1)
+            print("\n\nTweet not sent\nTrying again with 1 character shorter:")
+            print("\nFailed Tweet: " + str(text))
+            print("Length: " + str(len(text)))
+            print("\nRetrying: " + text[:280])
+            Tweet(text[:280],resp_id)
+        else:
+            print(e)       
+    print("Tweet sent successfully")
+        
+            
 
 def launch_stream():
     myStreamListener = MyStreamListener() 
@@ -167,41 +178,7 @@ def orig_owo(): #first solution, loops through the list every 10 seconds. Result
 
             tweet = ''
 
-            if tweet_id in keys.already_responded_ids:
-                print("Already responded to this TweetID " + str(tweet_id) + " from " + str(i))
-                tweeted = True
-            else:
-                tweeted=False
-                keys.already_responded_ids[tweet_id] = text
-                print("new Tweet ID " + str(tweet_id) + " from " + str(i))
-                try:
-                    with open("IDS.txt", "a+") as f:
-                        f.write(str(tweet_id) + " " + text.strip() +  "\n")
-                except: 
-                    print("Can't write tweet")
-                    with open("IDS.txt", "a+") as f:
-                        f.write(str(tweet_id) + " Can't write tweet" +  "\n")
-
-            if not tweeted:
-                try:
-                    
-                    print("Tweeted:", tweet)
-                    try:
-                            
-                        with open(i+'_log.txt', "a+") as f:
-                            f.write(str(datetime.datetime.now()) + " " + text + "\n" + tweet + "\n\n")
-                    except: 
-                        print("Can't write tweet")
-                        with open("IDS.txt", "a+") as f:
-                            f.write(str(tweet_id) + " Can't write tweet" +  "\n")
-
-                except tweepy.TweepError:
-                    print("No new tweet from " + i + " at time " + str(datetime.datetime.now()))
-
-                except:
-                    with open(i+'_log.txt', "a+") as f:
-                        f.write(str(datetime.datetime.now()) + " Cannot Write Tweet -- Not ASCII" + "\n\n")
-                    print("writeError, not ASCII")
+            
         else:
             print("Returned Empty List")
             
@@ -227,12 +204,12 @@ def to_Speech(text):
     os.system('start '+ keys.wmfilepath + ' ' + keys.mp3filepath + 'owo.mp3"')
 
 # ------------------- MAIN CODE HERE --------------------------------#
-def main_loop():
-    getIDs(people_at)
-    # load_tweet_log()
-    while(True):
-        try:      
-            launch_stream()
-        except Exception as e:
-            print(e)
-            time.sleep(120)
+
+getIDs(people_at)
+# load_tweet_log()
+while(True):
+    try:      
+        launch_stream()
+    except Exception as e:
+        print(e)
+        time.sleep(120)
