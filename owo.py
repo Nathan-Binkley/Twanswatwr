@@ -31,7 +31,8 @@ class MyStreamListener(tweepy.StreamListener):
                 if hasattr(status, 'retweeted_status'):
                     tweet_id=status.retweeted_status.id
                     print("Retweeted Status ID: " + str(tweet_id))
-                    #whom = status.retweeted_status.user.id
+                    whom = status.retweeted_status.user.screen_name
+                    print("From" + str(whom))
                     try:
                         tweet = status.retweeted_status.extended_tweet["full_text"]
                     except:
@@ -114,6 +115,7 @@ def Tweet(text, resp_id):
     try:
         print("responding to " + str(resp_id))
         word.update_status(status=text, in_reply_to_status_id=resp_id)
+        print("Tweet sent successfully")
         
     except Exception as e:
         print(e)
@@ -126,11 +128,11 @@ def Tweet(text, resp_id):
             print("\n\nTweet not sent\nTrying again with 1 character shorter:")
             print("\nFailed Tweet: " + str(text))
             print("Length: " + str(len(text)))
-            print("\nRetrying: " + text[:280])
-            Tweet(text[:280],resp_id)
+            print("\nRetrying: " + text[:len(text)-1])
+            Tweet(text[:len(text)-1],resp_id)
         else:
             print(e)       
-    print("Tweet sent successfully")
+   
         
             
 
