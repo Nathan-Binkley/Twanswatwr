@@ -18,11 +18,14 @@ people_at = ['realDonaldTrump', 'JoeBiden', 'LindseyGrahamSC']
 people_id = []
 person = ['25073877']
 
+tweets = {}
+
 
 class MyStreamListener(tweepy.StreamListener):
 
     def on_status(self, status):
         whom = status.user.screen_name
+
         if whom in people_at:
             try:
                 with io.open("OwO.json", "w", encoding='utf8') as f:
@@ -43,6 +46,9 @@ class MyStreamListener(tweepy.StreamListener):
                         tweet = status.extended_tweet["full_text"]
                     except AttributeError:
                         tweet = status.text
+                    
+                    logTweet(tweet, whom, tweet_id)
+
                 print(str(whom) + " just tweeted new ID: " + str(tweet_id))
                 print("With Status: " + tweet)
                 
@@ -147,6 +153,19 @@ def getIDs(listOfPeopleAts):
         response = word.user_timeline(id=i, count=1)
         people_id.append(str(response[0]._json['user']['id']))
         
+
+
+# Name = Twitter ID <Str>
+# text = Twitter status <Str>
+def logTweet(Text,Name, ID):
+    DT = datetime.datetime.now().replace(microsecond=0)
+    try:
+        with os.open("logs/"+Name+".txt", "a+") as f:
+            string = DT.isoformat().replace("T"," ") + " " + str(ID) + " " + Text
+            f.write(string)
+        print("Successfully logged tweet")
+    except Exception as e:
+        print(e)
 
 
 def orig_owo(): #first solution, loops through the list every 10 seconds. Resulted in badness
