@@ -35,7 +35,7 @@ class MyStreamListener(tweepy.StreamListener):
                     tweet_id=status.retweeted_status.id
                     print("Retweeted Status ID: " + str(tweet_id))
                     whom = status.retweeted_status.user.screen_name
-                    print("From" + str(whom))
+                    print("From " + str(whom))
                     try:
                         tweet = status.retweeted_status.extended_tweet["full_text"]
                     except:
@@ -47,9 +47,9 @@ class MyStreamListener(tweepy.StreamListener):
                     except AttributeError:
                         tweet = status.text
                     
+                    print(str(whom) + " just tweeted new ID: " + str(tweet_id)) 
                     logTweet(tweet, whom, tweet_id)
 
-                print(str(whom) + " just tweeted new ID: " + str(tweet_id))
                 print("With Status: " + tweet)
                 
 
@@ -160,9 +160,9 @@ def getIDs(listOfPeopleAts):
 def logTweet(Text,Name, ID):
     DT = datetime.datetime.now().replace(microsecond=0)
     try:
-        with os.open("logs/"+Name+".txt", "a+") as f:
-            string = DT.isoformat().replace("T"," ") + " " + str(ID) + " " + Text
-            f.write(string)
+        with io.open("logs/"+str(Name)+".txt", "a+") as f:
+            string = str(DT.isoformat().replace("T"," ")) + " " + str(ID) + " " + str(Text) + "\n"
+            f.write(str(string))
         print("Successfully logged tweet")
     except Exception as e:
         print(e)
