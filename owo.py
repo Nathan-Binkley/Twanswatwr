@@ -32,7 +32,7 @@ class MyStreamListener(tweepy.StreamListener):
                     json.dump(status._json, f, indent=4)
                 print("New Status ID: " + str(status.id))
                 if hasattr(status, 'retweeted_status'):
-                    tweet_id=status.retweeted_status.id
+                    tweet_id = status.retweeted_status.id
                     print("Retweeted Status ID: " + str(tweet_id))
                     whom = status.retweeted_status.user.screen_name
                     print("From " + str(whom))
@@ -121,7 +121,7 @@ def Tweet(text, resp_id):
     try:
         print("responding to " + str(resp_id))
         word.update_status(status=text, in_reply_to_status_id=resp_id)
-        print("Tweet sent successfully")
+        print("Tweet sent successfully\n")
         
     except Exception as e:
         print(e)
@@ -132,9 +132,6 @@ def Tweet(text, resp_id):
         elif "[{'code': 186, 'message': 'Tweet needs to be a bit shorter.'}]" in str(e):
             time.sleep(1)
             print("\n\nTweet not sent\nTrying again with 1 character shorter:")
-            print("\nFailed Tweet: " + str(text))
-            print("Length: " + str(len(text)))
-            print("\nRetrying: " + text[:len(text)-1])
             Tweet(text[:len(text)-1],resp_id)
         else:
             print(e)       
@@ -158,9 +155,13 @@ def getIDs(listOfPeopleAts):
 # Name = Twitter ID <Str>
 # text = Twitter status <Str>
 def logTweet(Text,Name, ID):
+    words = Text.split()
+    for i in range(len(words)):
+        words[i] = words[i].rstrip()
+    Text = " ".join(words)
     DT = datetime.datetime.now().replace(microsecond=0)
     try:
-        with io.open("logs/"+str(Name)+".txt", "a+") as f:
+        with io.open("logs/"+str(Name)+".txt", "a+",  encoding="utf-8") as f:
             string = str(DT.isoformat().replace("T"," ")) + " " + str(ID) + " " + str(Text) + "\n"
             f.write(str(string))
         print("Successfully logged tweet")
