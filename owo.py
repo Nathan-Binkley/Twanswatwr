@@ -9,6 +9,7 @@ import sys
 #SETTINGS
 
 filterList = ['://','www.','.com','.net','.gov','.org','https','http', '@', '#', 'RT']
+customEndings = ["*nuzzles you* OwO ", "*Pounces on Daddy's lap* UwU What's this? ",  "*stares deep into your eyes* I wuv you ", "*Kisses you* ", "º꒳º ", "Pwease Daddy? I can be youw pwincess (⑅˘꒳˘) " ,"OwO *notices bulge* ", "ouo ", "rawr XD ", "rawr XD ", "owo"]
 
 auth = tweepy.OAuthHandler(keys.API_KEY[0], keys.API_KEY[1])
 auth.set_access_token(keys.ACCESS_TOKEN[0],keys.ACCESS_TOKEN[1])
@@ -96,23 +97,8 @@ def owo(text):
         owod += " "
 
     if len(owod) < 150:
-        helper = random.randint(0,80)
-        if helper < 10:
-            owod += "owo "
-        elif helper < 20 and helper >= 10:
-            owod += "rawr XD "
-        elif helper < 30 and helper >= 20:
-            owod += "ouo "
-        elif helper < 40 and helper >= 30:
-            owod += "OwO *notices bulge* "
-        elif helper < 50 and helper >= 40:
-            owod += "Pwease Daddy? I can be youw pwincess (⑅˘꒳˘) " 
-        elif helper < 60 and helper >= 50:
-            owod += "º꒳º "
-        elif helper < 70 and helper >= 60:
-             owod += "*Kisses you from a distance because social distancing*"
-        else:
-            owod += "*nuzzles your body pillow because I cant because social distancing* OwO"
+        helper = random.randint(0,len(customEndings))
+        owod += customEndings[helper]
 
     return owod
 
