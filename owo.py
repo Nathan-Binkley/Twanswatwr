@@ -77,8 +77,9 @@ def owo(text):
     owod = ""
     for i in texts:
         i = i.rstrip()
-        if i == '&amp;':
-            owod += '&'
+        if "&amp;" in i:
+            i.replace('&amp;', '&')
+            owod += i
         else:
             temp = False
             for j in filterList: #allows filtering 
