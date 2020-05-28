@@ -1,4 +1,4 @@
-import os, time, random, json, datetime, io 
+import os, time, random, json, datetime, io, re 
 import tweepy
 from gtts import gTTS
 import keys
@@ -78,8 +78,7 @@ def owo(text):
     for i in texts:
         i = i.rstrip()
         if "&amp;" in i:
-            i.replace('&amp;', '&')
-            owod += i
+            re.sub(r'(?is)"&amp;.+', '&', i)
         else:
             temp = False
             for j in filterList: #allows filtering 
