@@ -75,10 +75,12 @@ class MyStreamListener(tweepy.StreamListener):
 def owo(text):
     texts = text.split(" ")
     owod = ""
+    example = ''
     for i in texts:
         i = i.rstrip()
         if "&amp;" in i:
-            re.sub(r'(?is)"&amp;.+', '&', i)
+            example = re.sub(r'(?is)"&amp;"', '&', i)
+            owod += example
         else:
             temp = False
             for j in filterList: #allows filtering 
