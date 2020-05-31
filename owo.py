@@ -73,29 +73,28 @@ class MyStreamListener(tweepy.StreamListener):
 
 
 def owo(text):
-    texts = text.split(" ")
     owod = ""
     example = ''
+    if "&amp;" in text:
+        text = re.sub(r'(?is)"&amp;"', '&', text)
+    texts = text.split(" ")
     for i in texts:
         i = i.rstrip()
-        if "&amp;" in i:
-            example = re.sub(r'(?is)"&amp;"', '&', i)
-            owod += example
-        else:
-            temp = False
-            for j in filterList: #allows filtering 
-                if j in i:
-                    owod += i
-                    temp = True
-                    break
-            if not temp:
-                for j in i:
-                    if j == "l" or j == "r":
-                        owod += "w"
-                    elif j == "L" or j == "R":
-                        owod += "W"
-                    else:
-                        owod += j
+    
+        temp = False
+        for j in filterList: #allows filtering 
+            if j in i:
+                owod += i
+                temp = True
+                break
+        if not temp:
+            for j in i:
+                if j == "l" or j == "r":
+                    owod += "w"
+                elif j == "L" or j == "R":
+                    owod += "W"
+                else:
+                    owod += j
         owod += " "
 
     if len(owod) < 150:
