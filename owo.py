@@ -20,7 +20,7 @@ word = tweepy.API(auth)
 
 people_at = ['realDonaldTrump', 'JoeBiden', 'LindseyGrahamSC', 'NathanBinkley1']
 people_id = []
-person = ['25073877']
+person = ['25073877'] #realDonaldTrump for test purposes
 
 tweets = {}
 
@@ -80,8 +80,7 @@ class MyStreamListener(tweepy.StreamListener):
             return False
 
 
-def owo(tweet):
-
+def owo(text):
     owod = ""
     example = ''
 
