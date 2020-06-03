@@ -64,7 +64,7 @@ class MyStreamListener(tweepy.StreamListener):
 
                 print("Tweeting: " + tweet + "\n\n")
 
-                tweet = BeautifulSoup(unescape(tweet), 'lxml').text #Deal with &amp; and such
+                
 
                 tweet = re.sub(r'(?is)"&amp;"',"&", tweet)
 
@@ -136,6 +136,7 @@ def Tweet(text, resp_id):
 def launch_stream():
     myStreamListener = MyStreamListener() 
     myStream = tweepy.Stream(auth = word.auth, listener=myStreamListener)
+    print("Successfully connected to Twitter")
     myStream.filter(follow=people_id, is_async=False) #Best solution.
 
 
