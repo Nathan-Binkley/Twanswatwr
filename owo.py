@@ -63,6 +63,9 @@ class MyStreamListener(tweepy.StreamListener):
                     tweet = "@" + whom + " " + owo(tweet)
 
                 print("Tweeting: " + tweet + "\n\n")
+                
+                tweet = BeautifulSoup(unescape(tweet), 'lxml').text #Deal with &amp; and such
+
                 Tweet(tweet, tweet_id)
                 
             except Exception as e:
@@ -76,13 +79,10 @@ class MyStreamListener(tweepy.StreamListener):
 
 
 def owo(tweet):
-    
-    text = BeautifulSoup(unescape(tweet), 'lxml').text
 
     owod = ""
     example = ''
-    if "&amp;" in text:
-        text = re.sub(r'(?is)"&amp;"', '&', text)
+
     texts = text.split(" ")
     for i in texts:
         i = i.rstrip()
