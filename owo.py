@@ -135,7 +135,7 @@ def Tweet(text, resp_id):
 
 def launch_stream():
     myStreamListener = MyStreamListener() 
-    print("Successfully connected to Twitter")
+    
     myStream = tweepy.Stream(auth = word.auth, listener=myStreamListener)
     myStream.filter(follow=people_id, is_async=False) #Best solution.
 
