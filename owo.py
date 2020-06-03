@@ -66,7 +66,7 @@ class MyStreamListener(tweepy.StreamListener):
 
                 
 
-                tweet = re.sub(r'(?is)"&amp;"',"&", tweet)
+                tweet = re.sub(r'\&\w*;', '', tweet)
 
                 Tweet(tweet, tweet_id)
                 
