@@ -62,9 +62,10 @@ class MyStreamListener(tweepy.StreamListener):
                 else:
                     tweet = "@" + whom + " " + owo(tweet)
 
+                tweet = re.sub(r'\&\w*;', '&', tweet)
+                
                 print("Tweeting: " + tweet + "\n\n")
 
-                tweet = re.sub(r'\&\w*;', '&', tweet)
 
                 Tweet(tweet, tweet_id)
                 
