@@ -143,8 +143,8 @@ def getIDs(listOfPeopleAts):
     for i in listOfPeopleAts:
         response = word.user_timeline(id=i, count=1)
         people_id.append(str(response[0]._json['user']['id']))
-        
-
+    print(people_at)
+    print(people_id)
 
 # Name = Twitter ID <Str>
 # text = Twitter status <Str>
