@@ -64,7 +64,7 @@ class MyStreamListener(tweepy.StreamListener):
 
                 print("Tweeting: " + tweet + "\n\n")
 
-                tweet = re.sub(r'\&\w*;', '', tweet)
+                tweet = re.sub(r'\&\w*;', '&', tweet)
 
                 Tweet(tweet, tweet_id)
                 
