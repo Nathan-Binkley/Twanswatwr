@@ -63,8 +63,10 @@ class MyStreamListener(tweepy.StreamListener):
                     tweet = "@" + whom + " " + owo(tweet)
 
                 print("Tweeting: " + tweet + "\n\n")
-                
+
                 tweet = BeautifulSoup(unescape(tweet), 'lxml').text #Deal with &amp; and such
+
+                tweet = re.sub(r'(?is)"&amp;"',"&", tweet)
 
                 Tweet(tweet, tweet_id)
                 
