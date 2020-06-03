@@ -18,7 +18,7 @@ auth = tweepy.OAuthHandler(keys.API_KEY[0], keys.API_KEY[1])
 auth.set_access_token(keys.ACCESS_TOKEN[0],keys.ACCESS_TOKEN[1])
 word = tweepy.API(auth)
 
-people_at = ['realDonaldTrump', 'JoeBiden', 'LindseyGrahamSC','NathanBinkley1']
+people_at = ['realDonaldTrump', 'JoeBiden', 'LindseyGrahamSC']#,'NathanBinkley1']
 people_id = []
 person = ['25073877'] #realDonaldTrump for test purposes
 
@@ -63,7 +63,7 @@ class MyStreamListener(tweepy.StreamListener):
                     tweet = "@" + whom + " " + owo(tweet)
 
                 tweet = re.sub(r'\&\w*;', '&', tweet)
-                
+
                 print("Tweeting: " + tweet + "\n\n")
 
 
