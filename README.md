@@ -29,10 +29,10 @@ I swapped this out with the Streaming API where it currently sits.
 
 # The Current State of things
 
-Currently The system works on my laptop. I have to re-launch it every time I shut it. My colleagues keep telling me I should upload it to AWS Lambda, which honestly might be a good idea.
+Currently The system works on AWS EC2.
 
 I have gotten the database to work properly, and now I'm building a json of return data from the geopy (Nomatim) service for my X,Y coordinate locations. This helps cut down all chances of pinging the Nomatim service twice for the same query. The problem is that people can set custom locations (i.e. "None of your business emoji emoji>") so I have to write to the json via io input. This is fine because python can handle it. People can't be that creative, right?
 
 I mean, statistically, if a room full of ~50 people were all asked to come up with a random number, they'd likely come up with atleast 1 matching answer to someone else in the room. Same thing with birthdays.
 
-Anyhow, database is operational. 
+Anyhow, database is operational which is currently just logging incoming tweets. Hopefully I can make a frequency table of letters and words for each candidate in the future leading up to the election. 
