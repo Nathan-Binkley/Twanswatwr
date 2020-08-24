@@ -13,7 +13,7 @@ from html import unescape
 
 filterList = ['://','www.','.com','.net','.gov','.org','https','http', '@', '#', 'RT']
 customEndings = ["*nuzzles you* OwO ", "*Pounces on Daddy's lap* UwU What's this? ",  "*stares deep into your eyes* I wuv you ", "*Kisses you* ", "º꒳º ", "Pwease Daddy? I can be youw pwincess (⑅˘꒳˘) " ,"OwO *notices bulge* ", "ouo ", "rawr XD ", "owo ", "UwU ", "*Softly pets your cute head* ", "Do you need some nuzzle wuzzle?"]
-
+customBeginnings = ['Mommy pwease can ', '*Stares into your eyes and says* ']
 auth = tweepy.OAuthHandler(keys.API_KEY[0], keys.API_KEY[1])
 auth.set_access_token(keys.ACCESS_TOKEN[0],keys.ACCESS_TOKEN[1])
 word = tweepy.API(auth)
@@ -83,27 +83,31 @@ def owo(text):
     owod = ""
     example = ''
 
-    texts = text.split(" ")
-    for i in texts:
-        i = i.rstrip()
+    texts = text.split(" ") #Split on spaces
+    for i in texts: #for each item in the split list
+        i = i.rstrip()  #remove \n characters 
     
-        temp = False
-        for j in filterList: #allows filtering 
-            if j in i:
-                owod += i
+        temp = False 
+        for j in filterList: #allows filtering based on predetermined list
+            if j in i:  # if filter index in the original word
+                owod += i   #ignore it
                 temp = True
                 break
-        if not temp:
-            for j in i:
-                if j == "l" or j == "r":
+        if not temp:    # if filter index not in word
+            for j in i: # go through each letter
+                if j == "l" or j == "r":    # replace
                     owod += "w"
-                elif j == "L" or j == "R":
+                elif j == "L" or j == "R": # replace
                     owod += "W"
                 else:
-                    owod += j
+                    owod += j #add if no replace (not r or l)
         owod += " "
 
-    if len(owod) < 150:
+    if len(owod) < 150: # add custom beginning
+        helper = random.randint(0,len(customBeginnings))
+        owod = customBeginnings[helper] + owod
+
+    if len(owod) < 150: # add custom ending
         helper = random.randint(0,len(customEndings))
         owod += customEndings[helper]
 
