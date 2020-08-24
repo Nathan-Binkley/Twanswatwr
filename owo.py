@@ -12,8 +12,8 @@ from html import unescape
 #SETTINGS
 
 filterList = ['://','www.','.com','.net','.gov','.org','https','http', '@', '#', 'RT']
-customEndings = ["*nuzzles you* OwO ", "*Pounces on Daddy's lap* UwU What's this? ",  "*stares deep into your eyes* I wuv you ", "*Kisses you* ", "º꒳º ", "Pwease Daddy? I can be youw pwincess (⑅˘꒳˘) " ,"OwO *notices bulge* ", "ouo ", "rawr XD ", "owo ", "UwU ", "*Softly pets your cute head* ", "Do you need some nuzzle wuzzle?"]
-customBeginnings = ['Mommy pwease can ', '*Stares into your eyes and says* ']
+customEndings = ['( ͡° ͜ʖ ͡°) ',"*nuzzles you* OwO ", "*Pounces on Daddy's lap* UwU What's this? ",  "*stares deep into your eyes* I wuv you ", "*Kisses you* ", "º꒳º ", "Pwease Daddy? I can be youw pwincess (⑅˘꒳˘) " ,"OwO *notices bulge* ", "ouo ", "rawr XD ", "owo ", "UwU ", "*Softly pets your cute head* ", "Do you need some nuzzle wuzzle?"]
+customBeginnings = ['Mommy pwease can ', '*Stares into your eyes and says* ', '( ͡° ͜ʖ ͡°) ']
 auth = tweepy.OAuthHandler(keys.API_KEY[0], keys.API_KEY[1])
 auth.set_access_token(keys.ACCESS_TOKEN[0],keys.ACCESS_TOKEN[1])
 word = tweepy.API(auth)
@@ -159,6 +159,9 @@ def logTweet(Text,Name, ID):
     Text = " ".join(words)
     DT = datetime.datetime.now().replace(microsecond=0)
     try:
+        if not os.path.isfile(f"logs/{Name}.txt"):
+            with open(f'logs/{Name}.txt', 'w') as f:
+                f.write("\n")
         with io.open("logs/"+str(Name)+".txt", "a+",  encoding="utf-8") as f:
             string = str(DT.isoformat().replace("T"," ")) + " " + str(ID) + " " + str(Text) + "\n"
             f.write(str(string))
