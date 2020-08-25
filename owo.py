@@ -104,12 +104,18 @@ def owo(text):
         owod += " "
 
     if len(owod) < 150: # add custom beginning
-        helper = random.randint(0,len(customBeginnings))
-        owod = customBeginnings[helper] + owod
+        try:
+            helper = random.randint(0,len(customBeginnings)-1)
+            owod = customBeginnings[helper] + owod
+        except:
+            pass
 
     if len(owod) < 150: # add custom ending
-        helper = random.randint(0,len(customEndings))
-        owod += customEndings[helper]
+        try:
+            helper = random.randint(0,len(customEndings)-1)
+            owod += customEndings[helper]
+        except:
+            pass
 
     return owod
 
