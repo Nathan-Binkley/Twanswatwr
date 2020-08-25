@@ -59,8 +59,8 @@ class MyStreamListener(tweepy.StreamListener):
 
                 if whom in owo(tweet): #if retweet, don't @them as well
                     tweet = owo(tweet)
-                else:
-                    tweet = "@" + whom + " " + owo(tweet)
+                # else:
+                #     tweet = "@" + whom + " " + owo(tweet)
 
                 tweet = re.sub(r'\&\w*;', '&', tweet)
 
@@ -123,7 +123,7 @@ def owo(text):
 def Tweet(text, resp_id):
     try:
         print("responding to " + str(resp_id))
-        word.update_status(status=text, in_reply_to_status_id=resp_id)
+        word.update_status(status=text, in_reply_to_status_id=resp_id, auto_populate_reply_metadata='true')
         print("Tweet sent successfully\n")
         
     except Exception as e:
