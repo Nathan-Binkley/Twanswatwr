@@ -56,12 +56,7 @@ class MyStreamListener(tweepy.StreamListener):
 
                 print("With Status: " + tweet)
                 
-
-                if whom in owo(tweet): #if retweet, don't @them as well
-                    tweet = owo(tweet)
-                # else:
-                #     tweet = "@" + whom + " " + owo(tweet)
-
+                tweet = owo(tweet)
                 tweet = re.sub(r'\&\w*;', '&', tweet)
 
                 print("Tweeting: " + tweet + "\n\n")
