@@ -13,7 +13,7 @@ from html import unescape
 
 filterList = ['://','www.','.com','.net','.gov','.org','https','http', '@', '#', 'RT']
 customEndings = ['( ͡° ͜ʖ ͡°) ',"*nuzzles you* OwO ", "*Pounces on Daddy's lap* UwU What's this? ",  "*stares deep into your eyes* I wuv you ", "*Kisses you* ", "º꒳º ", "Pwease Daddy? I can be youw pwincess (⑅˘꒳˘) " ,"OwO *notices bulge* ", "ouo ", "rawr XD ", "owo ", "UwU ", "*Softly pets your cute head* ", "Do you need some nuzzle wuzzle?"]
-customBeginnings = ['Mommy pwease can ', '*Stares into your eyes and says* ', '( ͡° ͜ʖ ͡°) ']
+customBeginnings = ['Mommy ', '*Stares into your eyes and says* ', '( ͡° ͜ʖ ͡°) ', '*purrs on your lap* ', '*Jumps on Daddy\'s lap* ']
 auth = tweepy.OAuthHandler(keys.API_KEY[0], keys.API_KEY[1])
 auth.set_access_token(keys.ACCESS_TOKEN[0],keys.ACCESS_TOKEN[1])
 word = tweepy.API(auth)
@@ -52,16 +52,15 @@ class MyStreamListener(tweepy.StreamListener):
                         tweet = status.text
                     
                     print(str(whom) + " just tweeted new ID: " + str(tweet_id)) 
+
                     logTweet(tweet, whom, tweet_id)
 
                 print("With Status: " + tweet)
-                
+
                 tweet = owo(tweet)
                 tweet = re.sub(r'\&\w*;', '&', tweet)
 
                 print("Tweeting: " + tweet + "\n\n")
-
-
                 Tweet(tweet, tweet_id)
                 
             except Exception as e:
