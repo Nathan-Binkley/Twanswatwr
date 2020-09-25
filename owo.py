@@ -3,6 +3,8 @@ import tweepy
 from gtts import gTTS
 import keys
 
+from apscheduler.schedulers.blocking import BlockingScheduler
+
 import sys
 
 from bs4 import BeautifulSoup
@@ -18,9 +20,10 @@ auth = tweepy.OAuthHandler(keys.API_KEY[0], keys.API_KEY[1])
 auth.set_access_token(keys.ACCESS_TOKEN[0],keys.ACCESS_TOKEN[1])
 word = tweepy.API(auth)
 
-people_at = ['realDonaldTrump', 'JoeBiden', 'LindseyGrahamSC', 'HelpMeDebugOwO']
+people_at = ['realDonaldTrump', 'JoeBiden', 'LindseyGrahamSC', 'HelpMeDebugOwO'] 
 people_id = []
 person = ['25073877'] #realDonaldTrump for test purposes
+debug = ['1235370767048740864']
 
 tweets = {}
 
@@ -29,21 +32,14 @@ class MyStreamListener(tweepy.StreamListener):
 
     def on_status(self, status):
         whom = status.user.screen_name
-
+        print(whom)
         if whom in people_at:
             try:
                 with io.open("OwO.json", "w", encoding='utf8') as f:
                     json.dump(status._json, f, indent=4)
                 print("New Status ID: " + str(status.id))
                 if hasattr(status, 'retweeted_status'):
-                    tweet_id = status.retweeted_status.id
-                    print("Retweeted Status ID: " + str(tweet_id))
-                    whom = status.retweeted_status.user.screen_name
-                    print("From " + str(whom))
-                    try:
-                        tweet = status.retweeted_status.extended_tweet["full_text"]
-                    except:
-                        tweet = status.retweeted_status.text
+                    print(status.retweeted_status)
                 else:
                     tweet_id = status.id
                     try:
@@ -55,19 +51,22 @@ class MyStreamListener(tweepy.StreamListener):
 
                     logTweet(tweet, whom, tweet_id)
 
-                print("With Status: " + tweet)
+                    print("With Status: " + tweet)
 
-                tweet = owo(tweet)
-                tweet = re.sub(r'\&\w*;', '&', tweet)
+                    tweet = owo(tweet)
+                    tweet = re.sub(r'\&\w*;', '&', tweet)
+                    tweet = tweet.replace('@','')
 
-                print("Tweeting: " + tweet + "\n\n")
-                Tweet(tweet, tweet_id)
+                    print("Tweeting: " + tweet + "\n\n")
+                    Tweet(tweet, tweet_id)
                 
             except Exception as e:
                 print("Error, Unknown issue")
                 print(e)
         
     def on_error(self, status_code):
+        print("ERROR")
+        print(status_code)
         if status_code == 420:
             #returning False in on_error disconnects the stream
             return False
@@ -119,6 +118,7 @@ def Tweet(text, resp_id):
         print("responding to " + str(resp_id))
         word.update_status(status=text, in_reply_to_status_id=resp_id, auto_populate_reply_metadata='true')
         print("Tweet sent successfully\n")
+        time.sleep(10)
         
     except Exception as e:
         print(e)
@@ -132,16 +132,12 @@ def Tweet(text, resp_id):
             Tweet(text[:len(text)-1],resp_id)
         else:
             print(e)       
-   
-        
-            
 
 def launch_stream():
     myStreamListener = MyStreamListener() 
     
     myStream = tweepy.Stream(auth = word.auth, listener=myStreamListener)
-    myStream.filter(follow=people_id, is_async=False) #Best solution.
-
+    myStream.filter(follow=debug, is_async=False) #Best solution.
 
 def getIDs(listOfPeopleAts):
     for i in listOfPeopleAts:
@@ -169,45 +165,37 @@ def logTweet(Text,Name, ID):
     except Exception as e:
         print(e)
 
-
 def orig_owo(): #first solution, loops through the list every 10 seconds. Resulted in badness
-    while True:
-        # for i in people:
-        whom = 'realDonaldTrump'
-        i = whom
-        
-        response = word.user_timeline(id = whom , count = 1, tweet_mode='extended')
+
+    # for i in people:
+    whom = ['realDonaldTrump', 'JoeBiden', 'LindseyGrahamSC', 'HelpMeDebugOwO']
+    for i in whom:
+    
+        response = word.user_timeline(id = i, count = 1, tweet_mode='extended')
         if len(response) > 0:
             status = response[0]
             status = status._json
             text=""
 
-            with open("Trumps.json", 'w') as f: #inspection of API response
+            with open("Trumps.json", 'w+') as f: #inspection of API response
                 json.dump(status, f, indent=4)
-
+            print(status.text)
             try:
                 text = status['retweeted_status'] #if retweet
                 text = text['full_text']
+                print(text)
                 tweet_id = status['retweeted_status']
                 tweet_id = tweet_id['id']
             except:     
                 text = status['full_text']
                 tweet_id = status['id']
+                print(text)
             
             twitter_at = status['user']['screen_name']
-
-            # print(text)
-            # print(owo(text))
-
             tweet = ''
-
-            
         else:
             print("Returned Empty List")
-            
-
-        time.sleep(10)
-
+                
 # ----------------- READ IN FROM FILE IF NECESSARY --------------------- #
 def in_files(name):
     filename = name #no ".txt" plz
@@ -228,11 +216,14 @@ def to_Speech(text):
 
 # ------------------- MAIN CODE HERE --------------------------------#
 
-getIDs(people_at)
 # load_tweet_log()
+getIDs(people_at)
+        
 while(True):
     try:      
         launch_stream()
+    except TimeoutError:
+        time.sleep(300)
     except Exception as e:
         print(e)
         time.sleep(120)
