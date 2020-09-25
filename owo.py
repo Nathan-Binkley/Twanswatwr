@@ -118,7 +118,7 @@ def Tweet(text, resp_id):
         print("responding to " + str(resp_id))
         word.update_status(status=text, in_reply_to_status_id=resp_id, auto_populate_reply_metadata='true')
         print("Tweet sent successfully\n")
-        time.sleep(10)
+        raise TimeoutError
         
     except Exception as e:
         print(e)
@@ -223,7 +223,7 @@ while(True):
     try:      
         launch_stream()
     except TimeoutError:
-        time.sleep(300)
+        time.sleep(600)
     except Exception as e:
         print(e)
         time.sleep(120)
